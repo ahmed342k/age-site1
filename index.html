@@ -163,27 +163,72 @@
       opacity:1;
     }
 
-    .theme-toggle::before{
-      content:"🌙";
-      position:absolute;
-      width:46px;
-      height:46px;
-      top:6px;
-      right:6px;
-      border-radius:50%;
-      background:var(--toggleKnob);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:22px;
-      transition:.22s ease;
-      box-shadow:0 4px 10px rgba(0,0,0,0.18);
-    }
+    .theme-toggle{
+  width:110px;
+  height:58px;
+  border:none;
+  border-radius:999px;
+  background:var(--toggleOn);
+  position:relative;
+  cursor:pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.15),
+    0 10px 22px rgba(0,0,0,0.18);
+  transition:.22s ease;
+  overflow:hidden;
+  flex:0 0 auto;
+}
 
-    body.light-mode .theme-toggle::before{
-      transform:translateX(-52px);
-      content:"☀";
-    }
+.theme-toggle .icon-track{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 14px;
+  font-size:22px;
+  pointer-events:none;
+}
+
+.theme-toggle .moon,
+.theme-toggle .sun{
+  transition:.22s ease;
+}
+
+.theme-toggle .moon{
+  opacity:1;
+}
+
+.theme-toggle .sun{
+  opacity:.25;
+}
+
+body.light-mode .theme-toggle .moon{
+  opacity:.25;
+}
+
+body.light-mode .theme-toggle .sun{
+  opacity:1;
+}
+
+.theme-toggle::before{
+  content:"";
+  position:absolute;
+  width:46px;
+  height:46px;
+  top:6px;
+  right:6px;
+  border-radius:50%;
+  background:var(--toggleKnob);
+  transition:.22s ease;
+  box-shadow:0 4px 10px rgba(0,0,0,0.18);
+}
+
+body.light-mode .theme-toggle::before{
+  transform:translateX(-52px);
+} 
+
+
 
     .back-btn{
       display:block;
