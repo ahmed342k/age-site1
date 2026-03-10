@@ -1,204 +1,367 @@
 <!DOCTYPE html>
-<html lang="ar">
-
+<html lang="ar" dir="rtl">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>النتيجة</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
 
-<title>النتيجة</title>
+  <style>
+    *{
+      box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent;
+      font-family:Arial,sans-serif;
+    }
 
-<link rel="icon" href="icon.png">
+    :root{
+      --bg1:#0b0d12;
+      --bg2:#12161d;
+      --text:#ffffff;
+      --sub:#cfd6df;
+      --card:rgba(255,255,255,0.05);
+      --btn:rgba(255,255,255,0.08);
+      --btnBorder:rgba(255,255,255,0.12);
+      --border:rgba(255,255,255,0.14);
+      --blue:#4f86ee;
+      --shadow:0 10px 24px rgba(0,0,0,.18);
+      --resultBg:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+    }
 
-<style>
+    body.light-mode{
+      --bg1:#eef3fb;
+      --bg2:#e7edf7;
+      --text:#111827;
+      --sub:#5f6b7a;
+      --card:rgba(255,255,255,0.82);
+      --btn:rgba(255,255,255,0.90);
+      --btnBorder:rgba(0,0,0,0.07);
+      --border:rgba(0,0,0,0.08);
+      --blue:#5a8df0;
+      --shadow:0 10px 22px rgba(0,0,0,.08);
+      --resultBg:linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,255,255,.90));
+    }
 
-body{
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(79,134,238,.14), transparent 30%),
+        linear-gradient(180deg,var(--bg1),var(--bg2));
+    }
 
-background:#0f1117;
-color:white;
-font-family:Arial;
-padding:20px;
+    .container{
+      max-width:620px;
+      margin:auto;
+      padding:20px 14px 34px;
+    }
 
-}
+    .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:16px;
+    }
 
-.container{
+    .back-link,
+    .share-btn{
+      min-width:92px;
+      height:42px;
+      border:none;
+      border-radius:16px;
+      background:var(--btn);
+      color:var(--text);
+      border:1px solid var(--btnBorder);
+      box-shadow:var(--shadow);
+      cursor:pointer;
+      text-decoration:none;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+    }
 
-max-width:520px;
-margin:auto;
+    .brand{
+      flex:1;
+      text-align:center;
+      font-size:22px;
+      font-weight:700;
+    }
 
-}
+    .box{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:28px;
+      padding:20px 16px;
+      box-shadow:var(--shadow);
+    }
 
-.grid{
+    .result-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
 
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
+    .result-card{
+      background:var(--resultBg);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:22px;
+      padding:16px 14px;
+      text-align:right;
+      box-shadow:0 6px 14px rgba(0,0,0,.08);
+    }
 
-}
+    body.light-mode .result-card{
+      border:1px solid rgba(0,0,0,.08);
+    }
 
-.card{
+    .result-card-title{
+      font-size:14px;
+      color:var(--sub);
+      margin-bottom:8px;
+    }
 
-background:#171a22;
-padding:15px;
-border-radius:14px;
+    .result-card-value{
+      font-size:21px;
+      font-weight:700;
+      color:var(--text);
+      line-height:1.8;
+      word-break:break-word;
+    }
 
-}
+    .result-card:nth-child(1){border-color:rgba(79,140,255,.35);}
+    .result-card:nth-child(2){border-color:rgba(80,200,120,.35);}
+    .result-card:nth-child(3){border-color:rgba(255,180,70,.35);}
+    .result-card:nth-child(4){border-color:rgba(255,120,120,.35);}
+    .result-card:nth-child(5){border-color:rgba(170,120,255,.35);}
+    .result-card:nth-child(6){border-color:rgba(70,190,255,.35);}
+    .result-card:nth-child(7){border-color:rgba(120,160,255,.35);}
+    .result-card:nth-child(8){border-color:rgba(255,170,90,.35);}
+    .result-card:nth-child(9){border-color:rgba(70,220,170,.35);}
+    .result-card:nth-child(10){border-color:rgba(255,215,90,.35);}
+    .result-card:nth-child(11){border-color:rgba(255,110,200,.35);}
+    .result-card:nth-child(12){border-color:rgba(255,80,120,.35);}
 
-.title{
+    .note{
+      margin-top:14px;
+      text-align:center;
+      color:var(--sub);
+      font-size:14px;
+      line-height:1.8;
+    }
 
-font-size:14px;
-opacity:.7;
-margin-bottom:6px;
-
-}
-
-.value{
-
-font-size:20px;
-font-weight:bold;
-
-}
-
-.btn{
-
-margin-top:15px;
-padding:12px;
-border:none;
-background:#4f8cff;
-color:white;
-border-radius:12px;
-width:100%;
-cursor:pointer;
-
-}
-
-.back{
-
-display:block;
-margin-top:15px;
-text-align:center;
-
-}
-
-</style>
+    @media (max-width:520px){
+      .result-grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
 </head>
-
-
 <body>
+  <div class="container">
+    <div class="top">
+      <a class="back-link" href="index.html" id="backText">← رجوع</a>
+      <div class="brand">𓆩 Noor 𓆪</div>
+      <button class="share-btn" id="shareText" onclick="shareResult()">مشاركة</button>
+    </div>
 
-<div class="container">
+    <div class="box">
+      <div class="result-grid" id="resultGrid"></div>
+      <div class="note" id="noteText">بعض النتائج تقريبية وليست دقيقة 100٪.</div>
+    </div>
+  </div>
 
-<div class="grid" id="grid"></div>
+  <script>
+    const data = JSON.parse(localStorage.getItem("ageCalcData") || "{}");
 
-<button class="btn" onclick="share()">مشاركة</button>
+    if (!data.selectedDay || !data.selectedMonth || !data.selectedYear) {
+      window.location.href = "index.html";
+    }
 
-<a class="back" href="index.html">رجوع</a>
+    if (data.theme === "light") {
+      document.body.classList.add("light-mode");
+    }
 
-</div>
+    if (data.currentLang === "en") {
+      document.documentElement.lang = "en";
+      document.documentElement.dir = "ltr";
+      document.getElementById("backText").innerText = "← Back";
+      document.getElementById("shareText").innerText = "Share";
+      document.getElementById("noteText").innerText = "Some results are approximate and not 100% exact.";
+    }
 
+    const d = Number(data.selectedDay);
+    const m = Number(data.selectedMonth);
+    const y = Number(data.selectedYear);
 
-<script>
+    const birthDate = new Date(y, m - 1, d);
+    const today = new Date();
 
-let data=JSON.parse(localStorage.getItem("ageData"))
+    let years = today.getFullYear() - birthDate.getFullYear();
+    let months = today.getMonth() - birthDate.getMonth();
+    let days = today.getDate() - birthDate.getDate();
 
-let birth=data.birth
+    if (days < 0) {
+      months--;
+      const previousMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+      days += previousMonth.getDate();
+    }
 
-let today=new Date()
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
 
-let b=new Date(birth.y,birth.m-1,birth.d)
+    const totalDays = Math.floor((today - birthDate) / (1000 * 60 * 60 * 24));
+    const hijriYears = Math.floor(totalDays / 354.367);
+    const hijriMonths = Math.floor((totalDays % 354.367) / 29.53);
+    const ramadanCount = hijriYears;
+    const prayerYears = Math.max(0, years - 7);
+    const prayersCount = prayerYears * 354 * 5;
+    const water = totalDays * 2;
+    const sleep = totalDays * 8;
+    const meals = totalDays * 3;
+    const livedHours = totalDays * 24;
+    const heartCount = totalDays * 24 * 60 * 70;
 
-let days=Math.floor((today-b)/86400000)
+    const cards = [];
 
-let years=Math.floor(days/365)
+    if (data.ageOn) {
+      cards.push(
+        {
+          titleAr:"العمر الميلادي",
+          titleEn:"Gregorian Age",
+          valueAr:`${years} سنة`,
+          valueEn:`${years} years`
+        },
+        {
+          titleAr:"الأشهر الإضافية",
+          titleEn:"Extra Months",
+          valueAr:`${months} شهر`,
+          valueEn:`${months} months`
+        },
+        {
+          titleAr:"الأيام الإضافية",
+          titleEn:"Extra Days",
+          valueAr:`${days} يوم`,
+          valueEn:`${days} days`
+        },
+        {
+          titleAr:"مجموع الأيام",
+          titleEn:"Total Days",
+          valueAr:`${totalDays.toLocaleString("ar-EG")} يوم`,
+          valueEn:`${totalDays.toLocaleString("en-US")} days`
+        }
+      );
+    }
 
-let grid=document.getElementById("grid")
+    if (data.hijriOn) {
+      cards.push({
+        titleAr:"العمر الهجري",
+        titleEn:"Hijri Age",
+        valueAr:`${hijriYears} سنة و ${hijriMonths} شهر`,
+        valueEn:`${hijriYears} years and ${hijriMonths} months`
+      });
+    }
 
-function card(t,v){
+    if (data.waterOn) {
+      cards.push({
+        titleAr:"كمية الماء",
+        titleEn:"Water Amount",
+        valueAr:`${water.toLocaleString("ar-EG")} لتر`,
+        valueEn:`${water.toLocaleString("en-US")} liters`
+      });
+    }
 
-grid.innerHTML+=`
+    if (data.sleepOn) {
+      cards.push({
+        titleAr:"ساعات النوم",
+        titleEn:"Sleep Hours",
+        valueAr:`${sleep.toLocaleString("ar-EG")} ساعة`,
+        valueEn:`${sleep.toLocaleString("en-US")} hours`
+      });
+    }
 
-<div class="card">
-<div class="title">${t}</div>
-<div class="value">${v}</div>
-</div>
+    if (data.mealsOn) {
+      cards.push({
+        titleAr:"عدد الوجبات",
+        titleEn:"Meals Count",
+        valueAr:`${meals.toLocaleString("ar-EG")} وجبة`,
+        valueEn:`${meals.toLocaleString("en-US")} meals`
+      });
+    }
 
-`
+    if (data.ramadanOn) {
+      cards.push({
+        titleAr:"عدد رمضاناتك",
+        titleEn:"Ramadans",
+        valueAr:`${ramadanCount.toLocaleString("ar-EG")} رمضان`,
+        valueEn:`${ramadanCount.toLocaleString("en-US")} Ramadans`
+      });
+    }
 
-}
+    if (data.prayersOn) {
+      cards.push({
+        titleAr:"عدد الصلوات",
+        titleEn:"Prayers",
+        valueAr:`${prayersCount.toLocaleString("ar-EG")} صلاة`,
+        valueEn:`${prayersCount.toLocaleString("en-US")} prayers`
+      });
+    }
 
-if(data.opts.age){
+    if (data.hoursOn) {
+      cards.push({
+        titleAr:"كم ساعة عشت",
+        titleEn:"Lived Hours",
+        valueAr:`${livedHours.toLocaleString("ar-EG")} ساعة`,
+        valueEn:`${livedHours.toLocaleString("en-US")} hours`
+      });
+    }
 
-card("العمر",years+" سنة")
+    if (data.heartbeatOn) {
+      cards.push({
+        titleAr:"نبضات القلب",
+        titleEn:"Heart Beats",
+        valueAr:`${heartCount.toLocaleString("ar-EG")} نبضة تقريبًا`,
+        valueEn:`${heartCount.toLocaleString("en-US")} beats تقريبًا`
+      });
+    }
 
-}
+    const grid = document.getElementById("resultGrid");
 
-if(data.opts.hijri){
+    cards.forEach(card => {
+      grid.innerHTML += `
+        <div class="result-card">
+          <div class="result-card-title">${data.currentLang === "en" ? card.titleEn : card.titleAr}</div>
+          <div class="result-card-value">${data.currentLang === "en" ? card.valueEn : card.valueAr}</div>
+        </div>
+      `;
+    });
 
-card("العمر الهجري",Math.floor(days/354)+" سنة")
+    function shareResult() {
+      const text = cards.map(card =>
+        `${data.currentLang === "en" ? card.titleEn : card.titleAr}: ${data.currentLang === "en" ? card.valueEn : card.valueAr}`
+      ).join("\n");
 
-}
+      const url = window.location.origin + window.location.pathname.replace("result.html", "index.html");
 
-if(data.opts.water){
-
-card("الماء",days*2+" لتر")
-
-}
-
-if(data.opts.sleep){
-
-card("النوم",days*8+" ساعة")
-
-}
-
-if(data.opts.meals){
-
-card("الوجبات",days*3)
-
-}
-
-if(data.opts.ramadan){
-
-card("رمضان",Math.floor(days/354))
-
-}
-
-if(data.opts.prayers){
-
-card("الصلوات",(days*5).toLocaleString())
-
-}
-
-if(data.opts.hours){
-
-card("الساعات",(days*24).toLocaleString())
-
-}
-
-if(data.opts.heart){
-
-card("نبضات القلب",(days*100000).toLocaleString())
-
-}
-
-
-function share(){
-
-let txt=document.body.innerText
-
-if(navigator.share){
-
-navigator.share({
-
-title:"Age Result",
-text:txt
-
-})
-
-}
-
-}
-
-</script>
-
+      if (navigator.share) {
+        navigator.share({
+          title: data.currentLang === "en" ? "Age Calculator Result" : "نتيجة حساب العمر",
+          text: text,
+          url: url
+        }).catch(() => {});
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(text + "\n" + url).then(() => {
+          alert(data.currentLang === "en" ? "Copied" : "تم النسخ");
+        });
+      } else {
+        alert(text);
+      }
+    }
+  </script>
 </body>
 </html>
