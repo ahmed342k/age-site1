@@ -6,45 +6,64 @@
   <title>حساب العمر | Age Calculator</title>
 
   <meta name="google-adsense-account" content="ca-pub-9591145205593484">
-  <meta name="description" content="موقع لحساب العمر بدقة بالسنوات والأشهر والأيام مع حساب العمر الهجري ومعلومات إضافية.">
-  <meta name="keywords" content="حساب العمر, احسب عمرك, كم عمري, العمر الهجري, age calculator, hijri age">
+  <meta name="description" content="موقع لحساب العمر بدقة مع العمر الهجري وكم رمضان مر عليك وكم صلاة صليت ومعلومات إضافية.">
+  <meta name="keywords" content="حساب العمر, العمر الهجري, كم رمضان, كم صلاة صليت, age calculator">
   <meta name="author" content="Age Calculator">
   <meta name="robots" content="index, follow">
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9591145205593484" crossorigin="anonymous"></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0R40JW82MJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0R40JW82MJ');
+  </script>
 
   <style>
     *{
       box-sizing:border-box;
-      -webkit-tap-highlight-color: transparent;
+      -webkit-tap-highlight-color:transparent;
     }
 
     :root{
       --bg1:#0b0d12;
       --bg2:#12161d;
-      --glass:rgba(255,255,255,0.08);
-      --border:rgba(255,255,255,0.14);
       --text:#ffffff;
       --sub:#cfd6df;
-      --blue:#4f8cff;
-      --shadow:0 12px 28px rgba(0,0,0,0.22);
       --card:rgba(255,255,255,0.05);
       --btn:rgba(255,255,255,0.08);
       --btnBorder:rgba(255,255,255,0.12);
+      --border:rgba(255,255,255,0.14);
+      --blue:#4f8cff;
+      --shadow:0 12px 28px rgba(0,0,0,0.22);
       --danger:#ff8e8e;
+      --success:#4ade80;
+      --toggleOff:#666666;
+      --toggleOn:#4a7df0;
+      --toggleKnob:#ffffff;
+      --resultBg:linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.05));
     }
 
     body.light-mode{
       --bg1:#f4f7fb;
       --bg2:#e9eef5;
-      --glass:rgba(255,255,255,0.65);
-      --border:rgba(0,0,0,0.08);
       --text:#10151c;
       --sub:#4e5968;
-      --blue:#2f6fff;
-      --shadow:0 12px 24px rgba(0,0,0,0.10);
       --card:rgba(255,255,255,0.72);
       --btn:rgba(255,255,255,0.85);
       --btnBorder:rgba(0,0,0,0.08);
+      --border:rgba(0,0,0,0.08);
+      --blue:#2f6fff;
+      --shadow:0 12px 24px rgba(0,0,0,0.10);
       --danger:#d83f3f;
+      --success:#16a34a;
+      --toggleOff:#7a7a7a;
+      --toggleOn:#f5b301;
+      --toggleKnob:#ffffff;
+      --resultBg:linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.84));
     }
 
     body{
@@ -58,11 +77,11 @@
         radial-gradient(circle at top left, rgba(255,255,255,0.06), transparent 22%),
         linear-gradient(180deg,var(--bg1),var(--bg2));
       overflow-x:hidden;
-      transition:background 0.22s ease,color 0.22s ease;
+      transition:background .22s ease,color .22s ease;
     }
 
     .container{
-      max-width:520px;
+      max-width:580px;
       margin:auto;
       padding:18px 14px 34px;
     }
@@ -75,7 +94,7 @@
       margin-bottom:14px;
     }
 
-    .top-btn{
+    .lang-btn{
       min-width:128px;
       background:var(--btn);
       color:var(--text);
@@ -84,15 +103,86 @@
       padding:12px 14px;
       font-size:15px;
       cursor:pointer;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
       box-shadow:var(--shadow);
-      transition:0.18s ease;
+      transition:.18s ease;
     }
 
-    .top-btn:active,
-    .top-btn:hover{
+    .lang-btn:hover,
+    .lang-btn:active{
       transform:translateY(-1px);
+    }
+
+    .theme-toggle{
+      width:110px;
+      height:58px;
+      border:none;
+      border-radius:999px;
+      background:var(--toggleOn);
+      position:relative;
+      cursor:pointer;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.15),
+        0 10px 22px rgba(0,0,0,0.18);
+      transition:.22s ease;
+      overflow:hidden;
+      flex:0 0 auto;
+    }
+
+    body.light-mode .theme-toggle{
+      background:var(--toggleOn);
+    }
+
+    .theme-toggle .icon-track{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 14px;
+      font-size:22px;
+      pointer-events:none;
+    }
+
+    .theme-toggle .moon{
+      opacity:1;
+      transition:.22s ease;
+    }
+
+    .theme-toggle .sun{
+      opacity:.35;
+      transition:.22s ease;
+    }
+
+    body.light-mode .theme-toggle .moon{
+      opacity:.35;
+    }
+
+    body.light-mode .theme-toggle .sun{
+      opacity:1;
+    }
+
+    .theme-toggle::before{
+      content:"🌙";
+      position:absolute;
+      width:46px;
+      height:46px;
+      top:6px;
+      right:6px;
+      border-radius:50%;
+      background:var(--toggleKnob);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:22px;
+      transition:.22s ease;
+      box-shadow:0 4px 10px rgba(0,0,0,0.18);
+    }
+
+    body.light-mode .theme-toggle::before{
+      transform:translateX(-52px);
+      content:"☀";
     }
 
     .back-btn{
@@ -103,22 +193,21 @@
       color:var(--text);
       font-size:20px;
       cursor:pointer;
-      position:relative;
-      z-index:20;
     }
 
-    .back-btn:active{
-      opacity:0.7;
+    .hidden{
+      display:none !important;
     }
 
     .box,
-    #result,
-    .toggle-row,
     .sheet,
+    #result,
     .birth-btn,
-    .main-btn{
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+    .main-btn,
+    .option-card,
+    .share-btn{
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
     }
 
     .box{
@@ -127,14 +216,11 @@
       border-radius:28px;
       padding:22px 16px;
       box-shadow:var(--shadow);
-      transition:0.22s ease;
     }
 
     h1{
       margin:0 0 10px;
       font-size:34px;
-      font-weight:700;
-      letter-spacing:0.3px;
     }
 
     .desc{
@@ -146,7 +232,7 @@
 
     .birth-btn{
       width:100%;
-      max-width:300px;
+      max-width:320px;
       background:var(--btn);
       color:var(--text);
       border:1px solid var(--btnBorder);
@@ -154,14 +240,83 @@
       font-size:18px;
       border-radius:18px;
       cursor:pointer;
-      margin-bottom:14px;
-      transition:0.18s ease;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+      margin-bottom:18px;
+      transition:.18s ease;
     }
 
     .birth-btn:hover,
     .birth-btn:active{
       transform:translateY(-1px);
+    }
+
+    .section-title{
+      font-size:20px;
+      margin:8px 0 12px;
+      color:var(--text);
+      text-align:right;
+    }
+
+    .options-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-bottom:18px;
+    }
+
+    .option-card{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      background:var(--btn);
+      border:1px solid var(--btnBorder);
+      border-radius:20px;
+      padding:14px 14px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.06),
+        0 5px 14px rgba(0,0,0,0.10);
+    }
+
+    .option-label{
+      font-size:16px;
+      color:var(--text);
+      text-align:right;
+      line-height:1.5;
+    }
+
+    .switch-btn{
+      width:60px;
+      height:36px;
+      border:none;
+      border-radius:999px;
+      background:var(--toggleOff);
+      position:relative;
+      cursor:pointer;
+      flex:0 0 auto;
+      transition:.18s ease;
+      padding:0;
+      box-shadow:inset 0 1px 2px rgba(0,0,0,0.14);
+    }
+
+    .switch-btn::before{
+      content:"";
+      position:absolute;
+      width:28px;
+      height:28px;
+      top:4px;
+      right:4px;
+      background:#ffffff;
+      border-radius:50%;
+      transition:.18s ease;
+      box-shadow:0 2px 8px rgba(0,0,0,0.14);
+    }
+
+    .switch-btn.active{
+      background:var(--toggleOn);
+    }
+
+    .switch-btn.active::before{
+      transform:translateX(-24px);
     }
 
     .main-btn{
@@ -173,7 +328,7 @@
       border-radius:20px;
       cursor:pointer;
       min-width:190px;
-      transition:0.18s ease;
+      transition:.18s ease;
       box-shadow:
         0 8px 20px rgba(79,140,255,0.14),
         inset 0 1px 0 rgba(255,255,255,0.08);
@@ -181,7 +336,7 @@
 
     .main-btn:hover,
     .main-btn:active{
-      transform:translateY(-1px) scale(0.99);
+      transform:translateY(-1px) scale(.99);
       background:rgba(79,140,255,0.22);
     }
 
@@ -192,92 +347,6 @@
       min-height:24px;
     }
 
-    .hidden{
-      display:none !important;
-    }
-
-    .options-wrap{
-      display:none;
-      margin-top:4px;
-      animation:fadeUp 0.22s ease;
-    }
-
-    .options-title{
-      color:var(--text);
-      font-size:23px;
-      margin-bottom:10px;
-      font-weight:700;
-    }
-
-    .options-desc{
-      color:var(--sub);
-      font-size:16px;
-      line-height:1.8;
-      margin-bottom:18px;
-    }
-
-    .toggle-row{
-      width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      background:var(--btn);
-      border:1px solid var(--btnBorder);
-      border-radius:24px;
-      padding:14px 16px;
-      margin-bottom:12px;
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.06),
-        0 5px 14px rgba(0,0,0,0.10);
-      transition:0.18s ease;
-    }
-
-    .toggle-label{
-      font-size:18px;
-      color:var(--text);
-    }
-
-    .switch-btn{
-      width:62px;
-      height:36px;
-      border:none;
-      border-radius:999px;
-      background:rgba(255,255,255,0.22);
-      position:relative;
-      cursor:pointer;
-      flex:0 0 auto;
-      transition:0.18s ease;
-      padding:0;
-      box-shadow: inset 0 1px 2px rgba(0,0,0,0.12);
-    }
-
-    .switch-btn::before{
-      content:"";
-      position:absolute;
-      width:28px;
-      height:28px;
-      top:4px;
-      right:4px;
-      background:linear-gradient(180deg,#ffffff,#f0f0f0);
-      border-radius:50%;
-      transition:0.18s cubic-bezier(.2,.8,.2,1);
-      box-shadow:
-        0 2px 8px rgba(0,0,0,0.14),
-        inset 0 1px 0 rgba(255,255,255,0.6);
-    }
-
-    .switch-btn.active{
-      background:var(--blue);
-      box-shadow:
-        0 6px 16px rgba(79,140,255,0.22),
-        inset 0 1px 0 rgba(255,255,255,0.10);
-    }
-
-    .switch-btn.active::before{
-      transform:translateX(-26px);
-    }
-
     #result{
       margin-top:18px;
       display:none;
@@ -286,22 +355,90 @@
       border:1px solid var(--btnBorder);
       border-radius:26px;
       padding:18px 16px;
-      font-size:20px;
-      line-height:2;
       box-shadow:var(--shadow);
-      animation:fadeUp 0.24s ease;
+      animation:fadeUp .24s ease;
     }
 
-    .result-line{
-      margin-bottom:10px;
-      color:var(--text);
+    .result-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:6px;
     }
+
+    .result-card{
+      background:var(--resultBg);
+      border:1px solid rgba(255,255,255,0.12);
+      border-radius:22px;
+      padding:16px 14px;
+      text-align:right;
+      box-shadow:0 8px 18px rgba(0,0,0,0.10);
+      transition:.18s ease;
+    }
+
+    body.light-mode .result-card{
+      border:1px solid rgba(0,0,0,0.08);
+    }
+
+    .result-card:hover{
+      transform:translateY(-1px);
+    }
+
+    .result-card-title{
+      font-size:14px;
+      color:var(--sub);
+      margin-bottom:8px;
+    }
+
+    .result-card-value{
+      font-size:20px;
+      font-weight:700;
+      color:var(--text);
+      line-height:1.8;
+      word-break:break-word;
+    }
+
+    #cardAgeYears{border-color:rgba(79,140,255,0.35);}
+    #cardHijri{border-color:rgba(80,200,120,0.35);}
+    #cardMonths{border-color:rgba(255,180,70,0.35);}
+    #cardDays{border-color:rgba(255,120,120,0.35);}
+    #cardTotalDays{border-color:rgba(170,120,255,0.35);}
+    #cardWater{border-color:rgba(70,190,255,0.35);}
+    #cardSleep{border-color:rgba(120,160,255,0.35);}
+    #cardMeals{border-color:rgba(255,170,90,0.35);}
+    #cardRamadan{border-color:rgba(70,220,170,0.35);}
+    #cardPrayers{border-color:rgba(255,215,90,0.35);}
+    #cardHours{border-color:rgba(255,110,200,0.35);}
+    #cardHeartbeat{border-color:rgba(255,80,120,0.35);}
 
     .note{
       margin-top:12px;
       color:var(--sub);
       font-size:14px;
       line-height:1.8;
+    }
+
+    .share-wrap{
+      margin-top:16px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .share-btn{
+      background:rgba(74,222,128,0.14);
+      color:var(--text);
+      border:1px solid rgba(74,222,128,0.28);
+      padding:13px 18px;
+      border-radius:18px;
+      font-size:17px;
+      cursor:pointer;
+      transition:.18s ease;
+      box-shadow:0 8px 18px rgba(0,0,0,0.08);
+    }
+
+    .share-btn:hover,
+    .share-btn:active{
+      transform:translateY(-1px);
     }
 
     .sheet-overlay{
@@ -322,7 +459,7 @@
       border-radius:28px 28px 0 0;
       padding:18px 14px 24px;
       box-shadow:0 -10px 26px rgba(0,0,0,0.24);
-      animation:slideUp 0.18s ease;
+      animation:slideUp .18s ease;
     }
 
     body.light-mode .sheet{
@@ -352,18 +489,12 @@
       height:44px;
       border-radius:14px;
       line-height:1;
-      transition:0.18s ease;
-    }
-
-    .sheet-icon:active{
-      transform:scale(0.96);
     }
 
     .picker-wrap{
       display:flex;
       gap:10px;
       justify-content:center;
-      align-items:flex-start;
       margin-top:8px;
     }
 
@@ -387,20 +518,12 @@
       font-size:28px;
       text-align:center;
       outline:none;
-      transition:0.18s ease;
+      transition:.18s ease;
     }
 
     .picker-input.error-field{
       border:1px solid var(--danger);
       box-shadow:0 0 0 2px rgba(255,80,80,0.10);
-    }
-
-    .picker-input::placeholder{
-      color:rgba(255,255,255,0.35);
-    }
-
-    body.light-mode .picker-input::placeholder{
-      color:rgba(0,0,0,0.28);
     }
 
     .date-error{
@@ -425,7 +548,6 @@
       font-size:18px;
       cursor:pointer;
       color:white;
-      transition:0.18s ease;
     }
 
     .sheet-confirm{
@@ -441,11 +563,6 @@
       color:#111;
       background:rgba(0,0,0,0.06);
       border:1px solid rgba(0,0,0,0.08);
-    }
-
-    .sheet-confirm:active,
-    .sheet-cancel:active{
-      transform:scale(0.97);
     }
 
     footer{
@@ -468,37 +585,35 @@
     }
 
     @keyframes fadeUp{
-      from{
-        opacity:0;
-        transform:translateY(6px);
+      from{opacity:0;transform:translateY(6px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    @media (max-width:520px){
+      .options-grid,
+      .result-grid{
+        grid-template-columns:1fr;
       }
-      to{
-        opacity:1;
-        transform:translateY(0);
+
+      .result-card-value{
+        font-size:19px;
       }
     }
   </style>
-
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9591145205593484" crossorigin="anonymous"></script>
-
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0R40JW82MJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-0R40JW82MJ');
-</script>
-
 </head>
 <body>
 
   <div class="container">
 
     <div class="top-bar">
-      <button class="top-btn" id="langToggleBtn" onclick="toggleLanguage()">العربية | EN</button>
-      <button class="top-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙 داكن | ☀ فاتح</button>
+      <button class="lang-btn" id="langToggleBtn" onclick="toggleLanguage()">العربية | EN</button>
+
+      <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" aria-label="تغيير الوضع">
+        <div class="icon-track">
+          <span class="moon">🌙</span>
+          <span class="sun">☀</span>
+        </div>
+      </button>
     </div>
 
     <button id="backButton" class="back-btn hidden" onclick="resetPage()">← تغيير تاريخ الميلاد</button>
@@ -509,100 +624,139 @@
         <h1 id="mainTitle">حساب العمر</h1>
 
         <div class="desc" id="mainDesc">
-          اختر تاريخ ميلادك لمعرفة عمرك، ثم فعّل الخيارات الإضافية إذا أردت تفاصيل أكثر.
+          اختر تاريخ ميلادك ثم فعّل الحسابات التي تريدها، وبعدها اضغط على احسب.
         </div>
 
         <button class="birth-btn" id="birthButton" onclick="openBirthSheet()">اختر تاريخ الميلاد</button>
 
-        <br>
+        <div class="section-title" id="optionsMainTitle">اختر ما تريد حسابه</div>
 
-        <button class="main-btn" id="calcBtn" onclick="calculateAge()">احسب عمري</button>
+        <div class="options-grid">
+          <div class="option-card">
+            <div class="option-label" id="labelAge">العمر الميلادي</div>
+            <button class="switch-btn active" id="ageBtn" onclick="toggleOption('age')"></button>
+          </div>
+
+          <div class="option-card">
+            <div class="option-label" id="labelHijri">العمر الهجري</div>
+            <button class="switch-btn active" id="hijriBtn" onclick="toggleOption('hijri')"></button>
+          </div>
+
+          <div class="option-card">
+            <div class="option-label" id="labelWater">كمية الماء</div>
+            <button class="switch-btn" id="waterBtn" onclick="toggleOption('water')"></button>
+          </div>
+
+          <div class="option-card">
+            <div class="option-label" id="labelSleep">ساعات النوم</div>
+            <button class="switch-btn" id="sleepBtn" onclick="toggleOption('sleep')"></button>
+          </div>
+
+          <div class="option-card">
+            <div class="option-label" id="labelMeals">عدد الوجبات</div>
+            <button class="switch-btn" id="mealsBtn" onclick="toggleOption('meals')"></button>
+          </div>
+
+          <div class="option-card">
+            <div class="option-label" id="labelRamadan">كم رمضان مر عليك</div>
+            <button class="switch-btn" id="ramadanBtn" onclick="toggleOption('ramadan')"></button>
+          </div>
+
+          <div class="option-card">
+            <div class="option-label" id="labelPrayers">كم صلاة صليت من عمر 7</div>
+            <button class="switch-btn" id="prayersBtn" onclick="toggleOption('prayers')"></button>
+          </div>
+
+          <div class="option-card">
+            <div class="option-label" id="labelHours">كم ساعة عشت</div>
+            <button class="switch-btn" id="hoursBtn" onclick="toggleOption('hours')"></button>
+          </div>
+
+          <div class="option-card">
+            <div class="option-label" id="labelHeartbeat">كم نبضة قلب</div>
+            <button class="switch-btn" id="heartbeatBtn" onclick="toggleOption('heartbeat')"></button>
+          </div>
+        </div>
+
+        <button class="main-btn" id="calcBtn" onclick="calculateAge()">احسب</button>
 
         <div class="error" id="error"></div>
       </div>
 
-      <div class="options-wrap" id="optionsWrap">
-        <div class="options-title" id="optionsTitle">معلومات إضافية اختيارية</div>
-        <div class="options-desc" id="optionsDesc">
-          فعّل أي زر حتى تظهر لك حسابات تقريبية إضافية.
-        </div>
-
-        <div class="toggle-row">
-          <div class="toggle-label" id="waterLabel">كمية الماء</div>
-          <button class="switch-btn" id="waterBtn" onclick="toggleExtra('water')"></button>
-        </div>
-
-        <div class="toggle-row">
-          <div class="toggle-label" id="sleepLabel">ساعات النوم</div>
-          <button class="switch-btn" id="sleepBtn" onclick="toggleExtra('sleep')"></button>
-        </div>
-
-        <div class="toggle-row">
-          <div class="toggle-label" id="mealsLabel">عدد الوجبات</div>
-          <button class="switch-btn" id="mealsBtn" onclick="toggleExtra('meals')"></button>
-        </div>
-      </div>
-
       <div id="result">
 
-  <div class="result-grid">
+        <div class="result-grid">
 
-    <div class="result-card" id="cardAgeYears">
-      <div class="result-card-title">العمر الميلادي</div>
-      <div class="result-card-value" id="years"></div>
-    </div>
+          <div class="result-card" id="cardAgeYears">
+            <div class="result-card-title">العمر الميلادي</div>
+            <div class="result-card-value" id="years"></div>
+          </div>
 
-    <div class="result-card" id="cardHijri">
-      <div class="result-card-title">العمر الهجري</div>
-      <div class="result-card-value" id="hijriAge"></div>
-    </div>
+          <div class="result-card" id="cardHijri">
+            <div class="result-card-title">العمر الهجري</div>
+            <div class="result-card-value" id="hijriAge"></div>
+          </div>
 
-    <div class="result-card" id="cardMonths">
-      <div class="result-card-title">الأشهر الإضافية</div>
-      <div class="result-card-value" id="months"></div>
-    </div>
+          <div class="result-card" id="cardMonths">
+            <div class="result-card-title">الأشهر الإضافية</div>
+            <div class="result-card-value" id="months"></div>
+          </div>
 
-    <div class="result-card" id="cardDays">
-      <div class="result-card-title">الأيام الإضافية</div>
-      <div class="result-card-value" id="days"></div>
-    </div>
+          <div class="result-card" id="cardDays">
+            <div class="result-card-title">الأيام الإضافية</div>
+            <div class="result-card-value" id="days"></div>
+          </div>
 
-    <div class="result-card" id="cardTotalDays">
-      <div class="result-card-title">مجموع الأيام</div>
-      <div class="result-card-value" id="totalDays"></div>
-    </div>
+          <div class="result-card" id="cardTotalDays">
+            <div class="result-card-title">مجموع الأيام</div>
+            <div class="result-card-value" id="totalDays"></div>
+          </div>
 
-    <div class="result-card" id="cardWater">
-      <div class="result-card-title">كمية الماء</div>
-      <div class="result-card-value" id="waterResult"></div>
-    </div>
+          <div class="result-card" id="cardWater">
+            <div class="result-card-title">كمية الماء</div>
+            <div class="result-card-value" id="waterResult"></div>
+          </div>
 
-    <div class="result-card" id="cardSleep">
-      <div class="result-card-title">ساعات النوم</div>
-      <div class="result-card-value" id="sleepResult"></div>
-    </div>
+          <div class="result-card" id="cardSleep">
+            <div class="result-card-title">ساعات النوم</div>
+            <div class="result-card-value" id="sleepResult"></div>
+          </div>
 
-    <div class="result-card" id="cardMeals">
-      <div class="result-card-title">عدد الوجبات</div>
-      <div class="result-card-value" id="mealsResult"></div>
-    </div>
+          <div class="result-card" id="cardMeals">
+            <div class="result-card-title">عدد الوجبات</div>
+            <div class="result-card-value" id="mealsResult"></div>
+          </div>
 
-    <div class="result-card" id="cardRamadan">
-      <div class="result-card-title">عدد رمضاناتك</div>
-      <div class="result-card-value" id="ramadanResult"></div>
-    </div>
+          <div class="result-card" id="cardRamadan">
+            <div class="result-card-title">عدد رمضاناتك</div>
+            <div class="result-card-value" id="ramadanResult"></div>
+          </div>
 
-    <div class="result-card" id="cardPrayers">
-      <div class="result-card-title">عدد الصلوات</div>
-      <div class="result-card-value" id="prayersResult"></div>
-    </div>
+          <div class="result-card" id="cardPrayers">
+            <div class="result-card-title">عدد الصلوات</div>
+            <div class="result-card-value" id="prayersResult"></div>
+          </div>
 
-  </div>
+          <div class="result-card" id="cardHours">
+            <div class="result-card-title">عدد الساعات</div>
+            <div class="result-card-value" id="hoursResult"></div>
+          </div>
 
-  <div class="note" id="noteText">
-    بعض النتائج تقريبية وليست دقيقة 100٪.
-  </div> 
-        
+          <div class="result-card" id="cardHeartbeat">
+            <div class="result-card-title">نبضات القلب</div>
+            <div class="result-card-value" id="heartbeatResult"></div>
+          </div>
+
+        </div>
+
+        <div class="note" id="noteText">
+          بعض النتائج تقريبية وليست دقيقة 100٪.
+        </div>
+
+        <div class="share-wrap">
+          <button class="share-btn" id="shareBtn" onclick="shareResult()">مشاركة النتيجة</button>
+        </div>
+
       </div>
 
     </div>
@@ -612,6 +766,7 @@
       <a href="contact.html" id="contactLink">اتصل بنا</a> |
       <a href="privacy.html" id="privacyLink">سياسة الخصوصية</a>
     </footer>
+
   </div>
 
   <div class="sheet-overlay" id="birthSheet">
@@ -652,12 +807,18 @@
     let selectedDay = "";
     let selectedMonth = "";
     let selectedYear = "";
-
     let savedTotalDays = 0;
+    let currentLang = "ar";
+
+    let ageOn = true;
+    let hijriOn = true;
     let waterOn = false;
     let sleepOn = false;
     let mealsOn = false;
-    let currentLang = "ar";
+    let ramadanOn = false;
+    let prayersOn = false;
+    let hoursOn = false;
+    let heartbeatOn = false;
 
     const dayPicker = document.getElementById("dayPicker");
     const monthPicker = document.getElementById("monthPicker");
@@ -733,7 +894,7 @@
         testDate.getMonth() !== m - 1 ||
         testDate.getDate() !== d
       ) {
-        errorBox.innerText = currentLang === "ar"
+        document.getElementById("dateError").innerText = currentLang === "ar"
           ? "تاريخ غير صحيح"
           : "Invalid date";
         dayPicker.classList.add("error-field");
@@ -742,20 +903,65 @@
         return;
       }
 
-      if (currentLang === "ar") {
-        document.getElementById("birthButton").innerText = y + "/" + m + "/" + d;
-      } else {
-        document.getElementById("birthButton").innerText = d + "/" + m + "/" + y;
-      }
+      document.getElementById("birthButton").innerText =
+        currentLang === "ar" ? y + "/" + m + "/" + d : d + "/" + m + "/" + y;
 
       closeBirthSheet();
+    }
+
+    function toggleOption(type) {
+      if (type === "age") {
+        ageOn = !ageOn;
+        document.getElementById("ageBtn").classList.toggle("active", ageOn);
+      }
+      if (type === "hijri") {
+        hijriOn = !hijriOn;
+        document.getElementById("hijriBtn").classList.toggle("active", hijriOn);
+      }
+      if (type === "water") {
+        waterOn = !waterOn;
+        document.getElementById("waterBtn").classList.toggle("active", waterOn);
+      }
+      if (type === "sleep") {
+        sleepOn = !sleepOn;
+        document.getElementById("sleepBtn").classList.toggle("active", sleepOn);
+      }
+      if (type === "meals") {
+        mealsOn = !mealsOn;
+        document.getElementById("mealsBtn").classList.toggle("active", mealsOn);
+      }
+      if (type === "ramadan") {
+        ramadanOn = !ramadanOn;
+        document.getElementById("ramadanBtn").classList.toggle("active", ramadanOn);
+      }
+      if (type === "prayers") {
+        prayersOn = !prayersOn;
+        document.getElementById("prayersBtn").classList.toggle("active", prayersOn);
+      }
+      if (type === "hours") {
+        hoursOn = !hoursOn;
+        document.getElementById("hoursBtn").classList.toggle("active", hoursOn);
+      }
+      if (type === "heartbeat") {
+        heartbeatOn = !heartbeatOn;
+        document.getElementById("heartbeatBtn").classList.toggle("active", heartbeatOn);
+      }
+    }
+
+    function clearResults() {
+      const ids = [
+        "years","months","days","totalDays","hijriAge","waterResult","sleepResult",
+        "mealsResult","ramadanResult","prayersResult","hoursResult","heartbeatResult"
+      ];
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = "";
+      });
     }
 
     function calculateAge() {
       const error = document.getElementById("error");
       const result = document.getElementById("result");
-      const startSection = document.getElementById("startSection");
-      const optionsWrap = document.getElementById("optionsWrap");
 
       error.innerText = "";
       result.style.display = "none";
@@ -813,93 +1019,143 @@
       const hijriYears = Math.floor(savedTotalDays / 354.367);
       const hijriMonths = Math.floor((savedTotalDays % 354.367) / 29.53);
 
-      if (currentLang === "ar") {
-        document.getElementById("years").innerText = "عمرك بالسنوات: " + years + " سنة";
-        document.getElementById("months").innerText = "الأشهر الإضافية: " + months + " شهر";
-        document.getElementById("days").innerText = "الأيام الإضافية: " + days + " يوم";
-        document.getElementById("totalDays").innerText =
-          "مجموع الأيام التي عشتها تقريباً: " + savedTotalDays.toLocaleString("ar-EG") + " يوم";
+      const ramadanCount = hijriYears;
+      let prayerYears = years - 7;
+      if (prayerYears < 0) prayerYears = 0;
+      const prayerDays = prayerYears * 354;
+      const prayersCount = prayerDays * 5;
+
+      const livedHours = savedTotalDays * 24;
+      const heartbeatCount = savedTotalDays * 24 * 60 * 70;
+
+      clearResults();
+
+      if (ageOn) {
+        if (currentLang === "ar") {
+          document.getElementById("years").innerText = years + " سنة";
+          document.getElementById("months").innerText = months + " شهر";
+          document.getElementById("days").innerText = days + " يوم";
+          document.getElementById("totalDays").innerText = savedTotalDays.toLocaleString("ar-EG") + " يوم";
+        } else {
+          document.getElementById("years").innerText = years + " years";
+          document.getElementById("months").innerText = months + " months";
+          document.getElementById("days").innerText = days + " days";
+          document.getElementById("totalDays").innerText = savedTotalDays.toLocaleString("en-US") + " days";
+        }
+      }
+
+      if (hijriOn) {
         document.getElementById("hijriAge").innerText =
-          "عمرك بالهجري تقريباً: " + hijriYears + " سنة و " + hijriMonths + " شهر";
-      } else {
-        document.getElementById("years").innerText = "Your age in years: " + years + " years";
-        document.getElementById("months").innerText = "Extra months: " + months + " months";
-        document.getElementById("days").innerText = "Extra days: " + days + " days";
-        document.getElementById("totalDays").innerText =
-          "Approximate total days lived: " + savedTotalDays.toLocaleString("en-US") + " days";
-        document.getElementById("hijriAge").innerText =
-          "Your Hijri age approximately: " + hijriYears + " years and " + hijriMonths + " months";
+          currentLang === "ar"
+            ? hijriYears + " سنة و " + hijriMonths + " شهر"
+            : hijriYears + " years and " + hijriMonths + " months";
       }
-
-      startSection.classList.add("hidden");
-      optionsWrap.style.display = "block";
-      result.style.display = "block";
-      document.getElementById("backButton").classList.remove("hidden");
-
-      updateExtras();
-    }
-
-    function toggleExtra(type) {
-      if (type === "water") {
-        waterOn = !waterOn;
-        document.getElementById("waterBtn").classList.toggle("active", waterOn);
-      }
-
-      if (type === "sleep") {
-        sleepOn = !sleepOn;
-        document.getElementById("sleepBtn").classList.toggle("active", sleepOn);
-      }
-
-      if (type === "meals") {
-        mealsOn = !mealsOn;
-        document.getElementById("mealsBtn").classList.toggle("active", mealsOn);
-      }
-
-      updateExtras();
-    }
-
-    function updateExtras() {
-      if (savedTotalDays === 0) return;
-
-      document.getElementById("waterResult").innerText = "";
-      document.getElementById("sleepResult").innerText = "";
-      document.getElementById("mealsResult").innerText = "";
 
       if (waterOn) {
         const water = savedTotalDays * 2;
         document.getElementById("waterResult").innerText =
           currentLang === "ar"
-            ? "كمية الماء التي شربتها تقريباً: " + water.toLocaleString("ar-EG") + " لتر"
-            : "Approximate water you drank: " + water.toLocaleString("en-US") + " liters";
+            ? water.toLocaleString("ar-EG") + " لتر"
+            : water.toLocaleString("en-US") + " liters";
       }
 
       if (sleepOn) {
         const sleep = savedTotalDays * 8;
         document.getElementById("sleepResult").innerText =
           currentLang === "ar"
-            ? "عدد ساعات النوم التقريبية: " + sleep.toLocaleString("ar-EG") + " ساعة"
-            : "Approximate sleeping hours: " + sleep.toLocaleString("en-US") + " hours";
+            ? sleep.toLocaleString("ar-EG") + " ساعة"
+            : sleep.toLocaleString("en-US") + " hours";
       }
 
       if (mealsOn) {
         const meals = savedTotalDays * 3;
         document.getElementById("mealsResult").innerText =
           currentLang === "ar"
-            ? "عدد الوجبات التي تناولتها تقريباً: " + meals.toLocaleString("ar-EG") + " وجبة"
-            : "Approximate meals eaten: " + meals.toLocaleString("en-US") + " meals";
+            ? meals.toLocaleString("ar-EG") + " وجبة"
+            : meals.toLocaleString("en-US") + " meals";
       }
+
+      if (ramadanOn) {
+        document.getElementById("ramadanResult").innerText =
+          currentLang === "ar"
+            ? ramadanCount.toLocaleString("ar-EG") + " رمضان"
+            : ramadanCount.toLocaleString("en-US") + " Ramadans";
+      }
+
+      if (prayersOn) {
+        document.getElementById("prayersResult").innerText =
+          currentLang === "ar"
+            ? prayersCount.toLocaleString("ar-EG") + " صلاة"
+            : prayersCount.toLocaleString("en-US") + " prayers";
+      }
+
+      if (hoursOn) {
+        document.getElementById("hoursResult").innerText =
+          currentLang === "ar"
+            ? livedHours.toLocaleString("ar-EG") + " ساعة"
+            : livedHours.toLocaleString("en-US") + " hours";
+      }
+
+      if (heartbeatOn) {
+        document.getElementById("heartbeatResult").innerText =
+          currentLang === "ar"
+            ? heartbeatCount.toLocaleString("ar-EG") + " نبضة تقريبًا"
+            : heartbeatCount.toLocaleString("en-US") + " beats تقريبًا";
+      }
+
+      result.style.display = "block";
+      document.getElementById("backButton").classList.remove("hidden");
     }
 
     function resetPage() {
-      document.getElementById("startSection").classList.remove("hidden");
-      document.getElementById("optionsWrap").style.display = "none";
       document.getElementById("result").style.display = "none";
       document.getElementById("backButton").classList.add("hidden");
+      document.getElementById("error").innerText = "";
       clearDateError();
     }
 
     function toggleTheme() {
       document.body.classList.toggle("light-mode");
+    }
+
+    function getShareText() {
+      const parts = [];
+      const pushIfExists = (id, titleAr, titleEn) => {
+        const el = document.getElementById(id);
+        if (el && el.innerText.trim() !== "") {
+          parts.push((currentLang === "ar" ? titleAr : titleEn) + ": " + el.innerText.trim());
+        }
+      };
+
+      pushIfExists("years", "العمر الميلادي", "Gregorian age");
+      pushIfExists("hijriAge", "العمر الهجري", "Hijri age");
+      pushIfExists("totalDays", "مجموع الأيام", "Total days");
+      pushIfExists("ramadanResult", "عدد رمضاناتك", "Ramadans");
+      pushIfExists("prayersResult", "عدد الصلوات", "Prayers");
+      pushIfExists("hoursResult", "عدد الساعات", "Lived hours");
+      pushIfExists("heartbeatResult", "نبضات القلب", "Heart beats");
+
+      if (currentLang === "ar") {
+        return "هذه نتيجتي في موقع حساب العمر:\n\n" + parts.join("\n");
+      }
+      return "This is my result from the Age Calculator website:\n\n" + parts.join("\n");
+    }
+
+    function shareResult() {
+      const text = getShareText();
+      const url = window.location.href;
+
+      if (navigator.share) {
+        navigator.share({
+          title: currentLang === "ar" ? "نتيجة حساب العمر" : "Age Calculator Result",
+          text: text,
+          url: url
+        });
+      } else {
+        navigator.clipboard.writeText(text + "\n" + url).then(() => {
+          alert(currentLang === "ar" ? "تم نسخ النتيجة والرابط" : "Result and link copied");
+        });
+      }
     }
 
     function toggleLanguage() {
@@ -911,15 +1167,20 @@
         document.documentElement.dir = "ltr";
 
         document.getElementById("mainTitle").innerText = "Age Calculator";
-        document.getElementById("mainDesc").innerText = "Choose your birth date to know your age, then enable extra options if you want more details.";
+        document.getElementById("mainDesc").innerText = "Choose your birth date, enable the calculations you want, then press calculate.";
         document.getElementById("birthButton").innerText = "Choose birth date";
-        document.getElementById("calcBtn").innerText = "Calculate My Age";
-        document.getElementById("optionsTitle").innerText = "Optional Extra Information";
-        document.getElementById("optionsDesc").innerText = "Enable any button to show additional approximate calculations.";
-        document.getElementById("waterLabel").innerText = "Water amount";
-        document.getElementById("sleepLabel").innerText = "Sleep hours";
-        document.getElementById("mealsLabel").innerText = "Number of meals";
-        document.getElementById("noteText").innerText = "Extra information is approximate and not 100% accurate.";
+        document.getElementById("optionsMainTitle").innerText = "Choose what you want to calculate";
+        document.getElementById("labelAge").innerText = "Gregorian age";
+        document.getElementById("labelHijri").innerText = "Hijri age";
+        document.getElementById("labelWater").innerText = "Water amount";
+        document.getElementById("labelSleep").innerText = "Sleep hours";
+        document.getElementById("labelMeals").innerText = "Meals count";
+        document.getElementById("labelRamadan").innerText = "How many Ramadans";
+        document.getElementById("labelPrayers").innerText = "Prayers since age 7";
+        document.getElementById("labelHours").innerText = "Lived hours";
+        document.getElementById("labelHeartbeat").innerText = "Heart beats";
+        document.getElementById("calcBtn").innerText = "Calculate";
+        document.getElementById("noteText").innerText = "Some results are approximate and not 100% exact.";
         document.getElementById("sheetTitle").innerText = "Choose Birth Date";
         document.getElementById("dayLabel").innerText = "Day";
         document.getElementById("monthLabel").innerText = "Month";
@@ -930,21 +1191,37 @@
         document.getElementById("contactLink").innerText = "Contact";
         document.getElementById("privacyLink").innerText = "Privacy Policy";
         document.getElementById("backButton").innerText = "← Change Birth Date";
+        document.getElementById("shareBtn").innerText = "Share Result";
+
+        const titles = [
+          "Gregorian Age","Hijri Age","Extra Months","Extra Days","Total Days",
+          "Water Amount","Sleep Hours","Meals Count","Ramadans","Prayers",
+          "Lived Hours","Heart Beats"
+        ];
+        document.querySelectorAll(".result-card-title").forEach((el, i) => {
+          if (titles[i]) el.innerText = titles[i];
+        });
+
       } else {
         currentLang = "ar";
         document.documentElement.lang = "ar";
         document.documentElement.dir = "rtl";
 
         document.getElementById("mainTitle").innerText = "حساب العمر";
-        document.getElementById("mainDesc").innerText = "اختر تاريخ ميلادك لمعرفة عمرك، ثم فعّل الخيارات الإضافية إذا أردت تفاصيل أكثر.";
+        document.getElementById("mainDesc").innerText = "اختر تاريخ ميلادك ثم فعّل الحسابات التي تريدها، وبعدها اضغط على احسب.";
         document.getElementById("birthButton").innerText = "اختر تاريخ الميلاد";
-        document.getElementById("calcBtn").innerText = "احسب عمري";
-        document.getElementById("optionsTitle").innerText = "معلومات إضافية اختيارية";
-        document.getElementById("optionsDesc").innerText = "فعّل أي زر حتى تظهر لك حسابات تقريبية إضافية.";
-        document.getElementById("waterLabel").innerText = "كمية الماء";
-        document.getElementById("sleepLabel").innerText = "ساعات النوم";
-        document.getElementById("mealsLabel").innerText = "عدد الوجبات";
-        document.getElementById("noteText").innerText = "المعلومات الإضافية تقريبية وليست دقيقة 100٪.";
+        document.getElementById("optionsMainTitle").innerText = "اختر ما تريد حسابه";
+        document.getElementById("labelAge").innerText = "العمر الميلادي";
+        document.getElementById("labelHijri").innerText = "العمر الهجري";
+        document.getElementById("labelWater").innerText = "كمية الماء";
+        document.getElementById("labelSleep").innerText = "ساعات النوم";
+        document.getElementById("labelMeals").innerText = "عدد الوجبات";
+        document.getElementById("labelRamadan").innerText = "كم رمضان مر عليك";
+        document.getElementById("labelPrayers").innerText = "كم صلاة صليت من عمر 7";
+        document.getElementById("labelHours").innerText = "كم ساعة عشت";
+        document.getElementById("labelHeartbeat").innerText = "كم نبضة قلب";
+        document.getElementById("calcBtn").innerText = "احسب";
+        document.getElementById("noteText").innerText = "بعض النتائج تقريبية وليست دقيقة 100٪.";
         document.getElementById("sheetTitle").innerText = "اختر الميلاد";
         document.getElementById("dayLabel").innerText = "اليوم";
         document.getElementById("monthLabel").innerText = "الشهر";
@@ -955,6 +1232,16 @@
         document.getElementById("contactLink").innerText = "اتصل بنا";
         document.getElementById("privacyLink").innerText = "سياسة الخصوصية";
         document.getElementById("backButton").innerText = "← تغيير تاريخ الميلاد";
+        document.getElementById("shareBtn").innerText = "مشاركة النتيجة";
+
+        const titles = [
+          "العمر الميلادي","العمر الهجري","الأشهر الإضافية","الأيام الإضافية","مجموع الأيام",
+          "كمية الماء","ساعات النوم","عدد الوجبات","عدد رمضاناتك","عدد الصلوات",
+          "عدد الساعات","نبضات القلب"
+        ];
+        document.querySelectorAll(".result-card-title").forEach((el, i) => {
+          if (titles[i]) el.innerText = titles[i];
+        });
       }
 
       if (savedTotalDays > 0) {
@@ -963,4 +1250,4 @@
     }
   </script>
 </body>
-  </html>
+</html>
