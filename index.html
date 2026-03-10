@@ -1,340 +1,799 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>حساب العمر</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-adsense-account" content="ca-pub-9591145205593484">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
 
-<title>حساب العمر</title>
+  <style>
+    *{
+      box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent;
+      font-family:Arial,sans-serif;
+    }
 
-<link rel="icon" href="icon.png">
+    :root{
+      --bg1:#0b0d12;
+      --bg2:#12161d;
+      --text:#ffffff;
+      --sub:#cfd6df;
+      --card:rgba(255,255,255,0.05);
+      --btn:rgba(255,255,255,0.08);
+      --btnBorder:rgba(255,255,255,0.12);
+      --border:rgba(255,255,255,0.14);
+      --blue:#4f86ee;
+      --shadow:0 10px 24px rgba(0,0,0,.18);
+      --danger:#ff8e8e;
+      --toggleOff:#7a7a7a;
+      --toggleOn:#4f86ee;
+      --toggleKnob:#ffffff;
+    }
 
-<style>
+    body.light-mode{
+      --bg1:#eef3fb;
+      --bg2:#e7edf7;
+      --text:#111827;
+      --sub:#5f6b7a;
+      --card:rgba(255,255,255,0.82);
+      --btn:rgba(255,255,255,0.90);
+      --btnBorder:rgba(0,0,0,0.07);
+      --border:rgba(0,0,0,0.08);
+      --blue:#5a8df0;
+      --shadow:0 10px 22px rgba(0,0,0,.08);
+      --danger:#d94a4a;
+      --toggleOff:#a0a0a0;
+      --toggleOn:#f2b600;
+      --toggleKnob:#ffffff;
+    }
 
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-font-family:Arial;
-}
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(79,134,238,.14), transparent 30%),
+        linear-gradient(180deg,var(--bg1),var(--bg2));
+      transition:.2s ease;
+    }
 
-body{
+    .container{
+      max-width:620px;
+      margin:auto;
+      padding:20px 14px 34px;
+    }
 
---bg:#0f1117;
---card:#171a22;
---text:#ffffff;
---sub:#bfc7d5;
---blue:#4f8cff;
+    .top-bar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:16px;
+    }
 
-background:var(--bg);
-color:var(--text);
+    .mini-btn{
+      min-width:78px;
+      height:44px;
+      border:none;
+      border-radius:16px;
+      background:var(--btn);
+      color:var(--text);
+      border:1px solid var(--btnBorder);
+      box-shadow:var(--shadow);
+      cursor:pointer;
+      font-size:13px;
+    }
 
-}
+    .brand-name{
+      flex:1;
+      text-align:center;
+      font-size:22px;
+      font-weight:700;
+      color:var(--text);
+      letter-spacing:.3px;
+    }
 
-body.light{
+    .theme-toggle{
+      width:84px;
+      height:44px;
+      border:none;
+      border-radius:999px;
+      background:var(--toggleOn);
+      position:relative;
+      cursor:pointer;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      flex:0 0 auto;
+    }
 
---bg:#f3f6fb;
---card:#ffffff;
---text:#111;
---sub:#666;
+    .theme-toggle .icon-track{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 10px;
+      font-size:16px;
+      pointer-events:none;
+    }
 
-}
+    .theme-toggle .moon,
+    .theme-toggle .sun{
+      transition:.2s ease;
+    }
 
-.container{
+    .theme-toggle .moon{opacity:1;}
+    .theme-toggle .sun{opacity:.28;}
 
-max-width:520px;
-margin:auto;
-padding:20px;
+    body.light-mode .theme-toggle .moon{opacity:.28;}
+    body.light-mode .theme-toggle .sun{opacity:1;}
 
-}
+    .theme-toggle::before{
+      content:"";
+      position:absolute;
+      width:32px;
+      height:32px;
+      top:6px;
+      right:6px;
+      border-radius:50%;
+      background:var(--toggleKnob);
+      box-shadow:0 3px 8px rgba(0,0,0,.16);
+      transition:.2s ease;
+    }
 
-.top{
+    body.light-mode .theme-toggle::before{
+      transform:translateX(-40px);
+    }
 
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin-bottom:15px;
+    .box{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:28px;
+      padding:22px 16px;
+      box-shadow:var(--shadow);
+    }
 
-}
+    h1{
+      margin:0 0 10px;
+      font-size:34px;
+      text-align:center;
+    }
 
-.brand{
+    .desc{
+      color:var(--sub);
+      font-size:17px;
+      line-height:1.8;
+      text-align:center;
+      margin-bottom:18px;
+    }
 
-font-size:22px;
-font-weight:bold;
+    .birth-btn{
+      width:100%;
+      border:none;
+      border-radius:20px;
+      padding:18px 16px;
+      font-size:18px;
+      cursor:pointer;
+      background:var(--blue);
+      color:#fff;
+      margin-bottom:18px;
+      box-shadow:var(--shadow);
+    }
 
-}
+    .section-title{
+      font-size:20px;
+      margin:6px 0 14px;
+      color:var(--text);
+      text-align:right;
+    }
 
-.smallBtn{
+    .options-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-bottom:18px;
+    }
 
-border:none;
-background:var(--card);
-color:var(--text);
-padding:8px 12px;
-border-radius:12px;
-cursor:pointer;
+    .option-card{
+      background:var(--btn);
+      border:1px solid var(--btnBorder);
+      border-radius:20px;
+      padding:12px 12px;
+      min-height:74px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      box-shadow:0 4px 10px rgba(0,0,0,.06);
+    }
 
-}
+    .option-label{
+      font-size:15px;
+      color:var(--text);
+      line-height:1.45;
+      text-align:right;
+      flex:1;
+    }
 
-.card{
+    .switch-btn{
+      width:52px;
+      height:32px;
+      border:none;
+      border-radius:999px;
+      background:var(--toggleOff);
+      position:relative;
+      cursor:pointer;
+      flex:0 0 auto;
+    }
 
-background:var(--card);
-padding:20px;
-border-radius:18px;
-margin-bottom:15px;
+    .switch-btn::before{
+      content:"";
+      position:absolute;
+      width:24px;
+      height:24px;
+      top:4px;
+      right:4px;
+      background:#fff;
+      border-radius:50%;
+      box-shadow:0 2px 8px rgba(0,0,0,.14);
+      transition:.18s ease;
+    }
 
-}
+    .switch-btn.active{
+      background:var(--toggleOn);
+    }
 
-.birth{
+    .switch-btn.active::before{
+      transform:translateX(-20px);
+    }
 
-width:100%;
-padding:14px;
-font-size:18px;
-border:none;
-border-radius:14px;
-background:var(--blue);
-color:white;
-cursor:pointer;
-margin-bottom:15px;
+    .main-btn{
+      width:100%;
+      border:none;
+      border-radius:20px;
+      padding:18px 16px;
+      font-size:20px;
+      cursor:pointer;
+      background:var(--blue);
+      color:#fff;
+      box-shadow:var(--shadow);
+    }
 
-}
+    .error{
+      min-height:24px;
+      margin-top:12px;
+      color:var(--danger);
+      font-size:15px;
+      text-align:center;
+    }
 
-.options{
+    footer{
+      margin-top:24px;
+      padding:16px 10px;
+      text-align:center;
+      color:var(--sub);
+      font-size:15px;
+    }
 
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
+    footer a{
+      color:var(--sub);
+      text-decoration:none;
+      margin:0 6px;
+    }
 
-}
+    .sheet-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.45);
+      display:none;
+      align-items:flex-end;
+      justify-content:center;
+      z-index:1000;
+    }
 
-.opt{
+    .sheet{
+      width:100%;
+      max-width:620px;
+      background:rgba(18,22,29,.95);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:28px 28px 0 0;
+      padding:18px 14px 24px;
+    }
 
-background:var(--card);
-padding:12px;
-border-radius:12px;
-display:flex;
-justify-content:space-between;
-align-items:center;
+    body.light-mode .sheet{
+      background:rgba(255,255,255,.98);
+    }
 
-}
+    .sheet-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:14px;
+    }
 
-.switch{
+    .sheet-title{
+      font-size:28px;
+      font-weight:700;
+      color:var(--text);
+    }
 
-width:44px;
-height:24px;
-background:#777;
-border-radius:20px;
-position:relative;
-cursor:pointer;
+    .sheet-icon{
+      width:44px;
+      height:44px;
+      border:none;
+      border-radius:14px;
+      background:var(--btn);
+      border:1px solid var(--btnBorder);
+      color:var(--text);
+      font-size:24px;
+      cursor:pointer;
+    }
 
-}
+    .picker-wrap{
+      display:flex;
+      gap:10px;
+    }
 
-.switch:before{
+    .picker-col{
+      flex:1;
+    }
 
-content:"";
-width:18px;
-height:18px;
-background:white;
-position:absolute;
-top:3px;
-right:3px;
-border-radius:50%;
-transition:.2s;
+    .picker-label{
+      margin-bottom:8px;
+      color:var(--sub);
+      font-size:15px;
+      text-align:center;
+    }
 
-}
+    .picker-input{
+      width:100%;
+      height:62px;
+      background:var(--btn);
+      color:var(--text);
+      border:1px solid var(--btnBorder);
+      border-radius:18px;
+      font-size:26px;
+      text-align:center;
+      outline:none;
+    }
 
-.switch.active{
+    .picker-input.error-field{
+      border-color:var(--danger);
+    }
 
-background:var(--blue);
+    .date-error{
+      color:var(--danger);
+      margin-top:10px;
+      min-height:20px;
+      text-align:center;
+    }
 
-}
+    .sheet-actions{
+      margin-top:12px;
+      display:flex;
+      gap:10px;
+      justify-content:center;
+    }
 
-.switch.active:before{
+    .sheet-confirm,
+    .sheet-cancel{
+      border:none;
+      border-radius:16px;
+      padding:13px 20px;
+      font-size:18px;
+      cursor:pointer;
+    }
 
-transform:translateX(-20px);
+    .sheet-confirm{
+      background:var(--blue);
+      color:#fff;
+    }
 
-}
+    .sheet-cancel{
+      background:var(--btn);
+      color:var(--text);
+      border:1px solid var(--btnBorder);
+    }
 
-.calc{
-
-width:100%;
-margin-top:15px;
-padding:14px;
-border:none;
-border-radius:14px;
-background:var(--blue);
-color:white;
-font-size:18px;
-cursor:pointer;
-
-}
-
-.error{
-
-color:#ff7a7a;
-margin-top:10px;
-
-}
-
-</style>
+    @media (max-width:520px){
+      .options-grid{
+        grid-template-columns:1fr 1fr;
+      }
+      .option-label{
+        font-size:14px;
+      }
+    }
+  </style>
 </head>
-
-
 <body>
 
-<div class="container">
-
-
-<div class="top">
-
-<button class="smallBtn" onclick="toggleLang()">AR/EN</button>
-
-<div class="brand">Noor</div>
-
-<button class="smallBtn" onclick="toggleTheme()">☀</button>
-
-</div>
-
-
-<div class="card">
-
-<button class="birth" onclick="setBirth()">اختر تاريخ الميلاد</button>
-
-
-<div class="options">
-
-<div class="opt">العمر الميلادي<div class="switch active" id="age"></div></div>
-<div class="opt">العمر الهجري<div class="switch active" id="hijri"></div></div>
-
-<div class="opt">كمية الماء<div class="switch" id="water"></div></div>
-<div class="opt">ساعات النوم<div class="switch" id="sleep"></div></div>
-
-<div class="opt">عدد الوجبات<div class="switch" id="meals"></div></div>
-<div class="opt">عدد رمضاناتك<div class="switch" id="ramadan"></div></div>
-
-<div class="opt">عدد الصلوات<div class="switch" id="prayers"></div></div>
-<div class="opt">كم ساعة عشت<div class="switch" id="hours"></div></div>
-
-<div class="opt">نبضات القلب<div class="switch" id="heart"></div></div>
-
-</div>
-
-
-<button class="calc" onclick="calculate()">احسب</button>
-
-<div class="error" id="error"></div>
-
-</div>
-
-</div>
-
-
-<script>
-
-let state=JSON.parse(localStorage.getItem("ageData")||"{}")
-
-let birth=state.birth||null
-let lang=state.lang||"ar"
-
-let opts=state.opts||{
-
-age:true,
-hijri:true,
-water:false,
-sleep:false,
-meals:false,
-ramadan:false,
-prayers:false,
-hours:false,
-heart:false
-
-}
-
-if(state.theme=="light"){
-
-document.body.classList.add("light")
-
-}
-
-function save(){
-
-localStorage.setItem("ageData",JSON.stringify({
-
-birth,
-lang,
-opts,
-theme:document.body.classList.contains("light")?"light":"dark"
-
-}))
-
-}
-
-document.querySelectorAll(".switch").forEach(sw=>{
-
-let id=sw.id
-
-if(opts[id]) sw.classList.add("active")
-
-sw.onclick=()=>{
-
-sw.classList.toggle("active")
-opts[id]=sw.classList.contains("active")
-
-save()
-
-}
-
-})
-
-
-function toggleTheme(){
-
-document.body.classList.toggle("light")
-save()
-
-}
-
-
-function toggleLang(){
-
-lang=lang=="ar"?"en":"ar"
-save()
-location.reload()
-
-}
-
-
-function setBirth(){
-
-let d=prompt("day")
-let m=prompt("month")
-let y=prompt("year")
-
-if(!d||!m||!y)return
-
-birth={d,m,y}
-
-save()
-
-}
-
-
-function calculate(){
-
-if(!birth){
-
-document.getElementById("error").innerText="اختر تاريخ الميلاد"
-return
-
-}
-
-save()
-
-location="result.html"
-
-}
-
-</script>
-
+  <div class="container">
+
+    <div class="top-bar">
+      <button class="mini-btn" id="langToggleBtn" onclick="toggleLanguage()">AR/EN</button>
+
+      <div class="brand-name">𓆩 Noor 𓆪</div>
+
+      <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" aria-label="theme">
+        <div class="icon-track">
+          <span class="moon">🌙</span>
+          <span class="sun">☀</span>
+        </div>
+      </button>
+    </div>
+
+    <div class="box">
+      <div id="startSection">
+        <h1 id="mainTitle">حساب العمر</h1>
+
+        <div class="desc" id="mainDesc">
+          اختر تاريخ ميلادك ثم فعّل الحسابات التي تريدها، وبعدها اضغط على احسب.
+        </div>
+
+        <button class="birth-btn" id="birthButton" onclick="openBirthSheet()">اختر تاريخ الميلاد</button>
+
+        <div class="section-title" id="optionsMainTitle">اختر ما تريد حسابه</div>
+
+        <div class="options-grid">
+          <div class="option-card">
+            <div class="option-label" id="labelAge">العمر الميلادي</div>
+            <button class="switch-btn active" id="ageBtn" onclick="toggleOption('age')"></button>
+          </div>
+
+          <div class="option-card">
+            <div class="option-label" id="labelHijri">العمر الهجري</div>
+            <button class="switch-btn active" id="hijriBtn" onclick="toggleOption('hijri')"></button>
+          </div>
+
+          <div class="option-card">
+            <div class="option-label" id="labelWater">كمية الماء</div>
+            <button class="switch-btn" id="waterBtn" onclick="toggleOption('water')"></button>
+          </div>
+
+          <div class="option-card">
+            <div class="option-label" id="labelSleep">ساعات النوم</div>
+            <button class="switch-btn" id="sleepBtn" onclick="toggleOption('sleep')"></button>
+          </div>
+
+          <div class="option-card">
+            <div class="option-label" id="labelMeals">عدد الوجبات</div>
+            <button class="switch-btn" id="mealsBtn" onclick="toggleOption('meals')"></button>
+          </div>
+
+          <div class="option-card">
+            <div class="option-label" id="labelRamadan">عدد رمضاناتك</div>
+            <button class="switch-btn" id="ramadanBtn" onclick="toggleOption('ramadan')"></button>
+          </div>
+
+          <div class="option-card">
+            <div class="option-label" id="labelPrayers">عدد الصلوات</div>
+            <button class="switch-btn" id="prayersBtn" onclick="toggleOption('prayers')"></button>
+          </div>
+
+          <div class="option-card">
+            <div class="option-label" id="labelHours">كم ساعة عشت</div>
+            <button class="switch-btn" id="hoursBtn" onclick="toggleOption('hours')"></button>
+          </div>
+
+          <div class="option-card">
+            <div class="option-label" id="labelHeartbeat">نبضات القلب</div>
+            <button class="switch-btn" id="heartbeatBtn" onclick="toggleOption('heartbeat')"></button>
+          </div>
+        </div>
+
+        <button class="main-btn" id="calcBtn" onclick="calculateAge()">احسب</button>
+        <div class="error" id="error"></div>
+      </div>
+    </div>
+
+    <footer>
+      <a href="about.html" id="aboutLink">من نحن</a> |
+      <a href="contact.html" id="contactLink">اتصل بنا</a> |
+      <a href="privacy.html" id="privacyLink">سياسة الخصوصية</a>
+    </footer>
+  </div>
+
+  <div class="sheet-overlay" id="birthSheet">
+    <div class="sheet">
+      <div class="sheet-header">
+        <button class="sheet-icon" onclick="closeBirthSheet()">✕</button>
+        <div class="sheet-title" id="sheetTitle">اختر الميلاد</div>
+        <button class="sheet-icon" onclick="confirmBirthDate()">✓</button>
+      </div>
+
+      <div class="picker-wrap">
+        <div class="picker-col">
+          <div class="picker-label" id="dayLabel">اليوم</div>
+          <input class="picker-input" id="dayPicker" type="number" min="1" max="31" placeholder="1">
+        </div>
+
+        <div class="picker-col">
+          <div class="picker-label" id="monthLabel">الشهر</div>
+          <input class="picker-input" id="monthPicker" type="number" min="1" max="12" placeholder="1">
+        </div>
+
+        <div class="picker-col">
+          <div class="picker-label" id="yearLabel">السنة</div>
+          <input class="picker-input" id="yearPicker" type="number" min="1900" max="2100" placeholder="2000">
+        </div>
+      </div>
+
+      <div id="dateError" class="date-error"></div>
+
+      <div class="sheet-actions">
+        <button class="sheet-confirm" id="confirmBtn" onclick="confirmBirthDate()">تأكيد</button>
+        <button class="sheet-cancel" id="cancelBtn" onclick="closeBirthSheet()">إلغاء</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let selectedDay = "";
+    let selectedMonth = "";
+    let selectedYear = "";
+    let currentLang = "ar";
+
+    let ageOn = true;
+    let hijriOn = true;
+    let waterOn = false;
+    let sleepOn = false;
+    let mealsOn = false;
+    let ramadanOn = false;
+    let prayersOn = false;
+    let hoursOn = false;
+    let heartbeatOn = false;
+
+    const dayPicker = document.getElementById("dayPicker");
+    const monthPicker = document.getElementById("monthPicker");
+    const yearPicker = document.getElementById("yearPicker");
+
+    function saveState() {
+      localStorage.setItem("ageCalcData", JSON.stringify({
+        selectedDay,
+        selectedMonth,
+        selectedYear,
+        currentLang,
+        ageOn,
+        hijriOn,
+        waterOn,
+        sleepOn,
+        mealsOn,
+        ramadanOn,
+        prayersOn,
+        hoursOn,
+        heartbeatOn,
+        theme: document.body.classList.contains("light-mode") ? "light" : "dark"
+      }));
+    }
+
+    function loadState() {
+      const saved = JSON.parse(localStorage.getItem("ageCalcData") || "{}");
+
+      if (saved.theme === "light") {
+        document.body.classList.add("light-mode");
+      }
+
+      selectedDay = saved.selectedDay || "";
+      selectedMonth = saved.selectedMonth || "";
+      selectedYear = saved.selectedYear || "";
+      currentLang = saved.currentLang || "ar";
+
+      ageOn = saved.ageOn ?? true;
+      hijriOn = saved.hijriOn ?? true;
+      waterOn = saved.waterOn ?? false;
+      sleepOn = saved.sleepOn ?? false;
+      mealsOn = saved.mealsOn ?? false;
+      ramadanOn = saved.ramadanOn ?? false;
+      prayersOn = saved.prayersOn ?? false;
+      hoursOn = saved.hoursOn ?? false;
+      heartbeatOn = saved.heartbeatOn ?? false;
+
+      const setBtn = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle("active", val);
+      };
+
+      setBtn("ageBtn", ageOn);
+      setBtn("hijriBtn", hijriOn);
+      setBtn("waterBtn", waterOn);
+      setBtn("sleepBtn", sleepOn);
+      setBtn("mealsBtn", mealsOn);
+      setBtn("ramadanBtn", ramadanOn);
+      setBtn("prayersBtn", prayersOn);
+      setBtn("hoursBtn", hoursOn);
+      setBtn("heartbeatBtn", heartbeatOn);
+
+      if (selectedDay && selectedMonth && selectedYear) {
+        dayPicker.value = selectedDay;
+        monthPicker.value = selectedMonth;
+        yearPicker.value = selectedYear;
+        document.getElementById("birthButton").innerText =
+          currentLang === "ar"
+            ? `${selectedYear}/${selectedMonth}/${selectedDay}`
+            : `${selectedDay}/${selectedMonth}/${selectedYear}`;
+      }
+
+      if (currentLang === "en") {
+        toggleLanguage(true);
+      }
+    }
+
+    function openBirthSheet() {
+      document.getElementById("birthSheet").style.display = "flex";
+    }
+
+    function closeBirthSheet() {
+      document.getElementById("birthSheet").style.display = "none";
+      clearDateError();
+    }
+
+    function clearDateError() {
+      document.getElementById("dateError").innerText = "";
+      dayPicker.classList.remove("error-field");
+      monthPicker.classList.remove("error-field");
+      yearPicker.classList.remove("error-field");
+    }
+
+    function markFieldError(field, message) {
+      clearDateError();
+      document.getElementById("dateError").innerText = message;
+      field.classList.add("error-field");
+    }
+
+    function confirmBirthDate() {
+      const errorBox = document.getElementById("dateError");
+      clearDateError();
+
+      selectedDay = dayPicker.value.trim();
+      selectedMonth = monthPicker.value.trim();
+      selectedYear = yearPicker.value.trim();
+
+      if (!selectedDay || !selectedMonth || !selectedYear) {
+        errorBox.innerText = currentLang === "ar" ? "يرجى إدخال اليوم والشهر والسنة" : "Please enter day, month, and year";
+        return;
+      }
+
+      const d = Number(selectedDay);
+      const m = Number(selectedMonth);
+      const y = Number(selectedYear);
+      const thisYear = new Date().getFullYear();
+
+      if (isNaN(d) || d < 1 || d > 31) {
+        markFieldError(dayPicker, currentLang === "ar" ? "اليوم بين 1 و 31" : "Day must be 1-31");
+        return;
+      }
+
+      if (isNaN(m) || m < 1 || m > 12) {
+        markFieldError(monthPicker, currentLang === "ar" ? "الشهر بين 1 و 12" : "Month must be 1-12");
+        return;
+      }
+
+      if (isNaN(y) || y < 1900 || y > thisYear) {
+        markFieldError(yearPicker, currentLang === "ar" ? "السنة غير صحيحة" : "Invalid year");
+        return;
+      }
+
+      const testDate = new Date(y, m - 1, d);
+      if (testDate.getFullYear() !== y || testDate.getMonth() !== m - 1 || testDate.getDate() !== d) {
+        errorBox.innerText = currentLang === "ar" ? "تاريخ غير صحيح" : "Invalid date";
+        return;
+      }
+
+      document.getElementById("birthButton").innerText =
+        currentLang === "ar" ? `${y}/${m}/${d}` : `${d}/${m}/${y}`;
+
+      saveState();
+      closeBirthSheet();
+    }
+
+    function toggleOption(type) {
+      if (type === "age") ageOn = !ageOn;
+      if (type === "hijri") hijriOn = !hijriOn;
+      if (type === "water") waterOn = !waterOn;
+      if (type === "sleep") sleepOn = !sleepOn;
+      if (type === "meals") mealsOn = !mealsOn;
+      if (type === "ramadan") ramadanOn = !ramadanOn;
+      if (type === "prayers") prayersOn = !prayersOn;
+      if (type === "hours") hoursOn = !hoursOn;
+      if (type === "heartbeat") heartbeatOn = !heartbeatOn;
+
+      document.getElementById("ageBtn").classList.toggle("active", ageOn);
+      document.getElementById("hijriBtn").classList.toggle("active", hijriOn);
+      document.getElementById("waterBtn").classList.toggle("active", waterOn);
+      document.getElementById("sleepBtn").classList.toggle("active", sleepOn);
+      document.getElementById("mealsBtn").classList.toggle("active", mealsOn);
+      document.getElementById("ramadanBtn").classList.toggle("active", ramadanOn);
+      document.getElementById("prayersBtn").classList.toggle("active", prayersOn);
+      document.getElementById("hoursBtn").classList.toggle("active", hoursOn);
+      document.getElementById("heartbeatBtn").classList.toggle("active", heartbeatOn);
+
+      saveState();
+    }
+
+    function calculateAge() {
+      const error = document.getElementById("error");
+      error.innerText = "";
+
+      if (!selectedDay || !selectedMonth || !selectedYear) {
+        error.innerText = currentLang === "ar" ? "يرجى اختيار تاريخ الميلاد" : "Please choose your birth date";
+        return;
+      }
+
+      saveState();
+      window.location.href = "result.html";
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("light-mode");
+      saveState();
+    }
+
+    function toggleLanguage(skipSave = false) {
+      clearDateError();
+
+      if (currentLang === "ar") {
+        currentLang = "en";
+        document.documentElement.lang = "en";
+        document.documentElement.dir = "ltr";
+        document.getElementById("mainTitle").innerText = "Age Calculator";
+        document.getElementById("mainDesc").innerText = "Choose your birth date, enable the calculations you want, then press calculate.";
+        document.getElementById("birthButton").innerText = selectedDay ? `${selectedDay}/${selectedMonth}/${selectedYear}` : "Choose birth date";
+        document.getElementById("optionsMainTitle").innerText = "Choose what you want to calculate";
+        document.getElementById("labelAge").innerText = "Gregorian age";
+        document.getElementById("labelHijri").innerText = "Hijri age";
+        document.getElementById("labelWater").innerText = "Water amount";
+        document.getElementById("labelSleep").innerText = "Sleep hours";
+        document.getElementById("labelMeals").innerText = "Meals count";
+        document.getElementById("labelRamadan").innerText = "Ramadans";
+        document.getElementById("labelPrayers").innerText = "Prayers";
+        document.getElementById("labelHours").innerText = "Lived hours";
+        document.getElementById("labelHeartbeat").innerText = "Heart beats";
+        document.getElementById("calcBtn").innerText = "Calculate";
+        document.getElementById("sheetTitle").innerText = "Choose Birth Date";
+        document.getElementById("dayLabel").innerText = "Day";
+        document.getElementById("monthLabel").innerText = "Month";
+        document.getElementById("yearLabel").innerText = "Year";
+        document.getElementById("confirmBtn").innerText = "Confirm";
+        document.getElementById("cancelBtn").innerText = "Cancel";
+        document.getElementById("aboutLink").innerText = "About";
+        document.getElementById("contactLink").innerText = "Contact";
+        document.getElementById("privacyLink").innerText = "Privacy";
+      } else {
+        currentLang = "ar";
+        document.documentElement.lang = "ar";
+        document.documentElement.dir = "rtl";
+        document.getElementById("mainTitle").innerText = "حساب العمر";
+        document.getElementById("mainDesc").innerText = "اختر تاريخ ميلادك ثم فعّل الحسابات التي تريدها، وبعدها اضغط على احسب.";
+        document.getElementById("birthButton").innerText = selectedDay ? `${selectedYear}/${selectedMonth}/${selectedDay}` : "اختر تاريخ الميلاد";
+        document.getElementById("optionsMainTitle").innerText = "اختر ما تريد حسابه";
+        document.getElementById("labelAge").innerText = "العمر الميلادي";
+        document.getElementById("labelHijri").innerText = "العمر الهجري";
+        document.getElementById("labelWater").innerText = "كمية الماء";
+        document.getElementById("labelSleep").innerText = "ساعات النوم";
+        document.getElementById("labelMeals").innerText = "عدد الوجبات";
+        document.getElementById("labelRamadan").innerText = "عدد رمضاناتك";
+        document.getElementById("labelPrayers").innerText = "عدد الصلوات";
+        document.getElementById("labelHours").innerText = "كم ساعة عشت";
+        document.getElementById("labelHeartbeat").innerText = "نبضات القلب";
+        document.getElementById("calcBtn").innerText = "احسب";
+        document.getElementById("sheetTitle").innerText = "اختر الميلاد";
+        document.getElementById("dayLabel").innerText = "اليوم";
+        document.getElementById("monthLabel").innerText = "الشهر";
+        document.getElementById("yearLabel").innerText = "السنة";
+        document.getElementById("confirmBtn").innerText = "تأكيد";
+        document.getElementById("cancelBtn").innerText = "إلغاء";
+        document.getElementById("aboutLink").innerText = "من نحن";
+        document.getElementById("contactLink").innerText = "اتصل بنا";
+        document.getElementById("privacyLink").innerText = "سياسة الخصوصية";
+      }
+
+      if (!skipSave) saveState();
+    }
+
+    loadState();
+  </script>
 </body>
-</html>
+  </html>
