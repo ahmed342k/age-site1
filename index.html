@@ -2,14 +2,14 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
-  <title>حساب العمر</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>حساب العمر | Age Calculator</title>
 
-<meta name="description" content="موقع عربي لحساب العمر بدقة. أدخل تاريخ ميلادك واحسب عمرك بالسنوات والأشهر والأيام مع معلومات إضافية.">
-
-<meta name="keywords" content="حساب العمر, احسب عمري, كم عمري, حساب العمر بالميلادي">
-
-<meta name="author" content="Age Calculator">
+  <meta name="google-adsense-account" content="ca-pub-9591145205593484">
+  <meta name="description" content="موقع عربي لحساب العمر بدقة بالسنوات والأشهر والأيام مع حساب العمر الهجري ومعلومات إضافية.">
+  <meta name="keywords" content="حساب العمر, العمر الهجري, احسب عمرك, كم عمري, age calculator, hijri age">
+  <meta name="author" content="Age Calculator">
+  <meta name="robots" content="index, follow">
 
   <style>
     *{
@@ -26,6 +26,23 @@
       --sub:#cfd6df;
       --blue:#4f8cff;
       --shadow:0 20px 50px rgba(0,0,0,0.35);
+      --card:rgba(255,255,255,0.05);
+      --btn:rgba(255,255,255,0.08);
+      --btnBorder:rgba(255,255,255,0.12);
+    }
+
+    body.light-mode{
+      --bg1:#f4f7fb;
+      --bg2:#e9eef5;
+      --glass:rgba(255,255,255,0.65);
+      --border:rgba(0,0,0,0.08);
+      --text:#10151c;
+      --sub:#4e5968;
+      --blue:#2f6fff;
+      --shadow:0 20px 45px rgba(0,0,0,0.10);
+      --card:rgba(255,255,255,0.72);
+      --btn:rgba(255,255,255,0.85);
+      --btnBorder:rgba(0,0,0,0.08);
     }
 
     body{
@@ -39,12 +56,41 @@
         radial-gradient(circle at top left, rgba(255,255,255,0.06), transparent 22%),
         linear-gradient(180deg,var(--bg1),var(--bg2));
       overflow-x:hidden;
+      transition:background 0.3s ease,color 0.3s ease;
     }
 
     .container{
       max-width:520px;
       margin:auto;
-      padding:24px 14px 34px;
+      padding:18px 14px 34px;
+    }
+
+    .top-bar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .top-btn{
+      min-width:128px;
+      background:var(--btn);
+      color:var(--text);
+      border:1px solid var(--btnBorder);
+      border-radius:18px;
+      padding:12px 14px;
+      font-size:15px;
+      cursor:pointer;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow:var(--shadow);
+      transition:0.25s ease;
+    }
+
+    .top-btn:active,
+    .top-btn:hover{
+      transform:translateY(-1px);
     }
 
     .back-btn{
@@ -52,7 +98,7 @@
       margin:0 auto 14px auto;
       background:none;
       border:none;
-      color:white;
+      color:var(--text);
       font-size:20px;
       cursor:pointer;
       position:relative;
@@ -74,7 +120,7 @@
     }
 
     .box{
-      background:rgba(255,255,255,0.05);
+      background:var(--card);
       border:1px solid var(--border);
       border-radius:28px;
       padding:22px 16px;
@@ -99,9 +145,9 @@
     .birth-btn{
       width:100%;
       max-width:300px;
-      background:rgba(255,255,255,0.08);
+      background:var(--btn);
       color:var(--text);
-      border:1px solid rgba(255,255,255,0.12);
+      border:1px solid var(--btnBorder);
       padding:15px 16px;
       font-size:18px;
       border-radius:18px;
@@ -114,7 +160,6 @@
     .birth-btn:hover,
     .birth-btn:active{
       transform:translateY(-1px);
-      background:rgba(255,255,255,0.11);
     }
 
     .main-btn{
@@ -156,7 +201,7 @@
     }
 
     .options-title{
-      color:#ffffff;
+      color:var(--text);
       font-size:23px;
       margin-bottom:10px;
       font-weight:700;
@@ -175,8 +220,8 @@
       align-items:center;
       justify-content:space-between;
       gap:14px;
-      background:rgba(255,255,255,0.06);
-      border:1px solid rgba(255,255,255,0.12);
+      background:var(--btn);
+      border:1px solid var(--btnBorder);
       border-radius:24px;
       padding:14px 16px;
       margin-bottom:12px;
@@ -186,13 +231,9 @@
       transition:0.25s ease;
     }
 
-    .toggle-row:hover{
-      background:rgba(255,255,255,0.08);
-    }
-
     .toggle-label{
       font-size:18px;
-      color:#ffffff;
+      color:var(--text);
     }
 
     .switch-btn{
@@ -239,8 +280,8 @@
       margin-top:18px;
       display:none;
       text-align:right;
-      background:rgba(255,255,255,0.07);
-      border:1px solid rgba(255,255,255,0.12);
+      background:var(--btn);
+      border:1px solid var(--btnBorder);
       border-radius:26px;
       padding:18px 16px;
       font-size:20px;
@@ -251,12 +292,12 @@
 
     .result-line{
       margin-bottom:10px;
-      color:#ffffff;
+      color:var(--text);
     }
 
     .note{
       margin-top:12px;
-      color:#bcc5cf;
+      color:var(--sub);
       font-size:14px;
       line-height:1.8;
     }
@@ -282,6 +323,10 @@
       animation:slideUp 0.25s ease;
     }
 
+    body.light-mode .sheet{
+      background:rgba(255,255,255,0.96);
+    }
+
     .sheet-header{
       display:flex;
       align-items:center;
@@ -292,13 +337,13 @@
     .sheet-title{
       font-size:28px;
       font-weight:700;
-      color:white;
+      color:var(--text);
     }
 
     .sheet-icon{
-      background:rgba(255,255,255,0.08);
-      border:1px solid rgba(255,255,255,0.1);
-      color:white;
+      background:var(--btn);
+      border:1px solid var(--btnBorder);
+      color:var(--text);
       font-size:26px;
       cursor:pointer;
       width:44px;
@@ -326,16 +371,16 @@
 
     .picker-label{
       margin-bottom:8px;
-      color:#d0d0d0;
+      color:var(--sub);
       font-size:15px;
     }
 
     .picker-input{
       width:100%;
       height:64px;
-      background:rgba(255,255,255,0.08);
-      color:white;
-      border:1px solid rgba(255,255,255,0.1);
+      background:var(--btn);
+      color:var(--text);
+      border:1px solid var(--btnBorder);
       border-radius:20px;
       font-size:28px;
       text-align:center;
@@ -344,6 +389,10 @@
 
     .picker-input::placeholder{
       color:rgba(255,255,255,0.35);
+    }
+
+    body.light-mode .picker-input::placeholder{
+      color:rgba(0,0,0,0.28);
     }
 
     .sheet-actions{
@@ -365,18 +414,37 @@
     }
 
     .sheet-confirm{
-      background:rgba(79,140,255,0.22);
-      border:1px solid rgba(79,140,255,0.35);
+      background:rgba(79,140,255,0.85);
     }
 
     .sheet-cancel{
-      background:rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.18);
       border:1px solid rgba(255,255,255,0.12);
+    }
+
+    body.light-mode .sheet-cancel{
+      color:#111;
+      background:rgba(0,0,0,0.06);
+      border:1px solid rgba(0,0,0,0.08);
     }
 
     .sheet-confirm:active,
     .sheet-cancel:active{
       transform:scale(0.97);
+    }
+
+    footer{
+      margin-top:24px;
+      padding:18px 12px;
+      text-align:center;
+      color:var(--sub);
+      font-size:15px;
+    }
+
+    footer a{
+      color:var(--sub);
+      text-decoration:none;
+      margin:0 8px;
     }
 
     @keyframes slideUp{
@@ -395,55 +463,56 @@
       }
     }
   </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9591145205593484"
-crossorigin="anonymous"></script>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9591145205593484" crossorigin="anonymous"></script>
 </head>
-  
 <body>
 
   <div class="container">
 
-    <button id="backButton" class="back-btn hidden" onclick="resetPage()">
-      ← تغيير تاريخ الميلاد
-    </button>
+    <div class="top-bar">
+      <button class="top-btn" id="langToggleBtn" onclick="toggleLanguage()">العربية | EN</button>
+      <button class="top-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙 داكن | ☀ فاتح</button>
+    </div>
+
+    <button id="backButton" class="back-btn hidden" onclick="resetPage()">← تغيير تاريخ الميلاد</button>
 
     <div class="box">
 
       <div id="startSection">
-        <h1>حساب العمر</h1>
-        <div class="desc">
+        <h1 id="mainTitle">حساب العمر</h1>
+
+        <div class="desc" id="mainDesc">
           اختر تاريخ ميلادك لمعرفة عمرك، ثم فعّل الخيارات الإضافية إذا أردت تفاصيل أكثر.
         </div>
 
-        <button class="birth-btn" id="birthButton" onclick="openBirthSheet()">
-          اختر تاريخ الميلاد
-        </button>
+        <button class="birth-btn" id="birthButton" onclick="openBirthSheet()">اختر تاريخ الميلاد</button>
 
         <br>
 
-        <button class="main-btn" onclick="calculateAge()">احسب عمري</button>
+        <button class="main-btn" id="calcBtn" onclick="calculateAge()">احسب عمري</button>
 
         <div class="error" id="error"></div>
       </div>
 
       <div class="options-wrap" id="optionsWrap">
-        <div class="options-title">معلومات إضافية اختيارية</div>
-        <div class="options-desc">
+        <div class="options-title" id="optionsTitle">معلومات إضافية اختيارية</div>
+        <div class="options-desc" id="optionsDesc">
           فعّل أي زر حتى تظهر لك حسابات تقريبية إضافية.
         </div>
 
         <div class="toggle-row">
-          <div class="toggle-label">كمية الماء</div>
+          <div class="toggle-label" id="waterLabel">كمية الماء</div>
           <button class="switch-btn" id="waterBtn" onclick="toggleExtra('water')"></button>
         </div>
 
         <div class="toggle-row">
-          <div class="toggle-label">ساعات النوم</div>
+          <div class="toggle-label" id="sleepLabel">ساعات النوم</div>
           <button class="switch-btn" id="sleepBtn" onclick="toggleExtra('sleep')"></button>
         </div>
 
         <div class="toggle-row">
-          <div class="toggle-label">عدد الوجبات</div>
+          <div class="toggle-label" id="mealsLabel">عدد الوجبات</div>
           <button class="switch-btn" id="mealsBtn" onclick="toggleExtra('meals')"></button>
         </div>
       </div>
@@ -453,47 +522,53 @@ crossorigin="anonymous"></script>
         <div class="result-line" id="months"></div>
         <div class="result-line" id="days"></div>
         <div class="result-line" id="totalDays"></div>
-
+        <div class="result-line" id="hijriAge"></div>
         <div class="result-line" id="waterResult"></div>
         <div class="result-line" id="sleepResult"></div>
         <div class="result-line" id="mealsResult"></div>
 
-        <div class="note">
+        <div class="note" id="noteText">
           المعلومات الإضافية تقريبية وليست دقيقة 100٪.
         </div>
       </div>
 
     </div>
+
+    <footer>
+      <a href="about.html" id="aboutLink">من نحن</a> |
+      <a href="contact.html" id="contactLink">اتصل بنا</a> |
+      <a href="privacy.html" id="privacyLink">سياسة الخصوصية</a>
+    </footer>
   </div>
 
   <div class="sheet-overlay" id="birthSheet">
     <div class="sheet">
       <div class="sheet-header">
         <button class="sheet-icon" onclick="closeBirthSheet()">✕</button>
-        <div class="sheet-title">اختر الميلاد</div>
+        <div class="sheet-title" id="sheetTitle">اختر الميلاد</div>
         <button class="sheet-icon" onclick="confirmBirthDate()">✓</button>
       </div>
 
       <div class="picker-wrap">
         <div class="picker-col">
-          <div class="picker-label">اليوم</div>
+          <div class="picker-label" id="dayLabel">اليوم</div>
           <input class="picker-input" id="dayPicker" type="number" min="1" max="31" placeholder="1">
         </div>
 
         <div class="picker-col">
-          <div class="picker-label">الشهر</div>
+          <div class="picker-label" id="monthLabel">الشهر</div>
           <input class="picker-input" id="monthPicker" type="number" min="1" max="12" placeholder="1">
         </div>
 
         <div class="picker-col">
-          <div class="picker-label">السنة</div>
+          <div class="picker-label" id="yearLabel">السنة</div>
           <input class="picker-input" id="yearPicker" type="number" min="1900" max="2100" placeholder="2000">
         </div>
       </div>
 
       <div class="sheet-actions">
-        <button class="sheet-confirm" onclick="confirmBirthDate()">تأكيد</button>
-        <button class="sheet-cancel" onclick="closeBirthSheet()">إلغاء</button>
+        <button class="sheet-confirm" id="confirmBtn" onclick="confirmBirthDate()">تأكيد</button>
+        <button class="sheet-cancel" id="cancelBtn" onclick="closeBirthSheet()">إلغاء</button>
       </div>
     </div>
   </div>
@@ -507,6 +582,7 @@ crossorigin="anonymous"></script>
     let waterOn = false;
     let sleepOn = false;
     let mealsOn = false;
+    let currentLang = "ar";
 
     const dayPicker = document.getElementById("dayPicker");
     const monthPicker = document.getElementById("monthPicker");
@@ -537,7 +613,12 @@ crossorigin="anonymous"></script>
         return;
       }
 
-      document.getElementById("birthButton").innerText = y + "/" + m + "/" + d;
+      if (currentLang === "ar") {
+        document.getElementById("birthButton").innerText = y + "/" + m + "/" + d;
+      } else {
+        document.getElementById("birthButton").innerText = d + "/" + m + "/" + y;
+      }
+
       closeBirthSheet();
     }
 
@@ -555,12 +636,12 @@ crossorigin="anonymous"></script>
       const y = Number(selectedYear);
 
       if (!selectedDay || !selectedMonth || !selectedYear) {
-        error.innerText = "يرجى اختيار تاريخ الميلاد";
+        error.innerText = currentLang === "ar" ? "يرجى اختيار تاريخ الميلاد" : "Please choose your birth date";
         return;
       }
 
       if (d < 1 || d > 31 || m < 1 || m > 12 || y < 1900) {
-        error.innerText = "يرجى إدخال تاريخ ميلاد صحيح";
+        error.innerText = currentLang === "ar" ? "يرجى إدخال تاريخ ميلاد صحيح" : "Please enter a valid birth date";
         return;
       }
 
@@ -568,7 +649,7 @@ crossorigin="anonymous"></script>
       const today = new Date();
 
       if (birthDate > today) {
-        error.innerText = "تاريخ الميلاد لا يمكن أن يكون في المستقبل";
+        error.innerText = currentLang === "ar" ? "تاريخ الميلاد لا يمكن أن يكون في المستقبل" : "Birth date cannot be in the future";
         return;
       }
 
@@ -590,11 +671,26 @@ crossorigin="anonymous"></script>
       const diffTime = today - birthDate;
       savedTotalDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-      document.getElementById("years").innerText = "عمرك بالسنوات: " + years + " سنة";
-      document.getElementById("months").innerText = "الأشهر الإضافية: " + months + " شهر";
-      document.getElementById("days").innerText = "الأيام الإضافية: " + days + " يوم";
-      document.getElementById("totalDays").innerText =
-        "مجموع الأيام التي عشتها تقريباً: " + savedTotalDays.toLocaleString("ar-EG") + " يوم";
+      const hijriYears = Math.floor(savedTotalDays / 354.367);
+      const hijriMonths = Math.floor((savedTotalDays % 354.367) / 29.53);
+
+      if (currentLang === "ar") {
+        document.getElementById("years").innerText = "عمرك بالسنوات: " + years + " سنة";
+        document.getElementById("months").innerText = "الأشهر الإضافية: " + months + " شهر";
+        document.getElementById("days").innerText = "الأيام الإضافية: " + days + " يوم";
+        document.getElementById("totalDays").innerText =
+          "مجموع الأيام التي عشتها تقريباً: " + savedTotalDays.toLocaleString("ar-EG") + " يوم";
+        document.getElementById("hijriAge").innerText =
+          "عمرك بالهجري تقريباً: " + hijriYears + " سنة و " + hijriMonths + " شهر";
+      } else {
+        document.getElementById("years").innerText = "Your age in years: " + years + " years";
+        document.getElementById("months").innerText = "Extra months: " + months + " months";
+        document.getElementById("days").innerText = "Extra days: " + days + " days";
+        document.getElementById("totalDays").innerText =
+          "Total days lived تقريباً: " + savedTotalDays.toLocaleString("en-US") + " days";
+        document.getElementById("hijriAge").innerText =
+          "Your Hijri age تقريباً: " + hijriYears + " years and " + hijriMonths + " months";
+      }
 
       startSection.classList.add("hidden");
       optionsWrap.style.display = "block";
@@ -633,19 +729,25 @@ crossorigin="anonymous"></script>
       if (waterOn) {
         const water = savedTotalDays * 2;
         document.getElementById("waterResult").innerText =
-          "كمية الماء التي شربتها تقريباً: " + water.toLocaleString("ar-EG") + " لتر";
+          currentLang === "ar"
+            ? "كمية الماء التي شربتها تقريباً: " + water.toLocaleString("ar-EG") + " لتر"
+            : "Approximate water you drank: " + water.toLocaleString("en-US") + " liters";
       }
 
       if (sleepOn) {
         const sleep = savedTotalDays * 8;
         document.getElementById("sleepResult").innerText =
-          "عدد ساعات النوم التقريبية: " + sleep.toLocaleString("ar-EG") + " ساعة";
+          currentLang === "ar"
+            ? "عدد ساعات النوم التقريبية: " + sleep.toLocaleString("ar-EG") + " ساعة"
+            : "Approximate sleeping hours: " + sleep.toLocaleString("en-US") + " hours";
       }
 
       if (mealsOn) {
         const meals = savedTotalDays * 3;
         document.getElementById("mealsResult").innerText =
-          "عدد الوجبات التي تناولتها تقريباً: " + meals.toLocaleString("ar-EG") + " وجبة";
+          currentLang === "ar"
+            ? "عدد الوجبات التي تناولتها تقريباً: " + meals.toLocaleString("ar-EG") + " وجبة"
+            : "Approximate meals eaten: " + meals.toLocaleString("en-US") + " meals";
       }
     }
 
@@ -655,21 +757,68 @@ crossorigin="anonymous"></script>
       document.getElementById("result").style.display = "none";
       document.getElementById("backButton").classList.add("hidden");
     }
-  </script>
-<footer style="margin-top:24px;padding:18px 12px;text-align:center;color:#cfd6df;font-size:15px;">
-  
-<a href="about.html" style="color:#cfd6df;text-decoration:none;margin:0 8px;">
-من نحن
-</a>
-|
-<a href="contact.html" style="color:#cfd6df;text-decoration:none;margin:0 8px;">
-اتصل بنا
-</a>
-|
-<a href="privacy.html" style="color:#cfd6df;text-decoration:none;margin:0 8px;">
-سياسة الخصوصية
-</a>
 
-</footer>
+    function toggleTheme() {
+      document.body.classList.toggle("light-mode");
+    }
+
+    function toggleLanguage() {
+      if (currentLang === "ar") {
+        currentLang = "en";
+        document.documentElement.lang = "en";
+        document.documentElement.dir = "ltr";
+
+        document.getElementById("mainTitle").innerText = "Age Calculator";
+        document.getElementById("mainDesc").innerText = "Choose your birth date to know your age, then enable extra options if you want more details.";
+        document.getElementById("birthButton").innerText = "Choose birth date";
+        document.getElementById("calcBtn").innerText = "Calculate My Age";
+        document.getElementById("optionsTitle").innerText = "Optional Extra Information";
+        document.getElementById("optionsDesc").innerText = "Enable any button to show additional approximate calculations.";
+        document.getElementById("waterLabel").innerText = "Water amount";
+        document.getElementById("sleepLabel").innerText = "Sleep hours";
+        document.getElementById("mealsLabel").innerText = "Number of meals";
+        document.getElementById("noteText").innerText = "Extra information is approximate and not 100% accurate.";
+        document.getElementById("sheetTitle").innerText = "Choose Birth Date";
+        document.getElementById("dayLabel").innerText = "Day";
+        document.getElementById("monthLabel").innerText = "Month";
+        document.getElementById("yearLabel").innerText = "Year";
+        document.getElementById("confirmBtn").innerText = "Confirm";
+        document.getElementById("cancelBtn").innerText = "Cancel";
+        document.getElementById("aboutLink").innerText = "About";
+        document.getElementById("contactLink").innerText = "Contact";
+        document.getElementById("privacyLink").innerText = "Privacy Policy";
+        document.getElementById("backButton").innerText = "← Change Birth Date";
+      } else {
+        currentLang = "ar";
+        document.documentElement.lang = "ar";
+        document.documentElement.dir = "rtl";
+
+        document.getElementById("mainTitle").innerText = "حساب العمر";
+        document.getElementById("mainDesc").innerText = "اختر تاريخ ميلادك لمعرفة عمرك، ثم فعّل الخيارات الإضافية إذا أردت تفاصيل أكثر.";
+        document.getElementById("birthButton").innerText = "اختر تاريخ الميلاد";
+        document.getElementById("calcBtn").innerText = "احسب عمري";
+        document.getElementById("optionsTitle").innerText = "معلومات إضافية اختيارية";
+        document.getElementById("optionsDesc").innerText = "فعّل أي زر حتى تظهر لك حسابات تقريبية إضافية.";
+        document.getElementById("waterLabel").innerText = "كمية الماء";
+        document.getElementById("sleepLabel").innerText = "ساعات النوم";
+        document.getElementById("mealsLabel").innerText = "عدد الوجبات";
+        document.getElementById("noteText").innerText = "المعلومات الإضافية تقريبية وليست دقيقة 100٪.";
+        document.getElementById("sheetTitle").innerText = "اختر الميلاد";
+        document.getElementById("dayLabel").innerText = "اليوم";
+        document.getElementById("monthLabel").innerText = "الشهر";
+        document.getElementById("yearLabel").innerText = "السنة";
+        document.getElementById("confirmBtn").innerText = "تأكيد";
+        document.getElementById("cancelBtn").innerText = "إلغاء";
+        document.getElementById("aboutLink").innerText = "من نحن";
+        document.getElementById("contactLink").innerText = "اتصل بنا";
+        document.getElementById("privacyLink").innerText = "سياسة الخصوصية";
+        document.getElementById("backButton").innerText = "← تغيير تاريخ الميلاد";
+      }
+
+      if (savedTotalDays > 0) {
+        updateExtras();
+      }
+    }
+  </script>
 </body>
 </html>
