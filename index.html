@@ -11,8 +11,18 @@
   <meta name="google-adsense-account" content="ca-pub-9591145205593484">
 
   <link rel="canonical" href="https://ahmed342k.github.io/" />
-  <link rel="icon" type="image/png" href="icon.png">
-  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icon.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icon.png">
+  <link rel="shortcut icon" href="icon.png">
+
+  <meta property="og:title" content="حساب العمر | احسب عمرك الميلادي والهجري">
+  <meta property="og:description" content="احسب عمرك الميلادي والهجري وعدد الساعات التي عشتها بسرعة وسهولة.">
+  <meta property="og:image" content="https://ahmed342k.github.io/share.jpg">
+  <meta property="og:url" content="https://ahmed342k.github.io/">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ahmed342k.github.io/share.jpg">
 
   <style>
     *{
@@ -365,6 +375,48 @@
       text-align:center;
     }
 
+    .live-age-box{
+      margin-top:16px;
+      background:var(--btn);
+      border:1px solid var(--btnBorder);
+      border-radius:22px;
+      padding:16px;
+      box-shadow:0 4px 10px rgba(0,0,0,.06);
+    }
+
+    .live-age-title{
+      font-size:18px;
+      color:var(--text);
+      text-align:center;
+      margin-bottom:12px;
+    }
+
+    .live-age-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+    }
+
+    .live-age-card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:14px 10px;
+      text-align:center;
+    }
+
+    .live-age-number{
+      font-size:22px;
+      font-weight:700;
+      color:var(--text);
+      margin-bottom:6px;
+    }
+
+    .live-age-label{
+      font-size:14px;
+      color:var(--sub);
+    }
+
     .info-section,
     .faq-section,
     .articles-section{
@@ -618,7 +670,8 @@
       .feature-grid,
       .article-grid,
       .faq-grid,
-      .options-grid{
+      .options-grid,
+      .live-age-grid{
         grid-template-columns:1fr;
       }
 
@@ -683,11 +736,6 @@
     ]
   }
   </script>
-  <meta property="og:title" content="حساب العمر | احسب عمرك الميلادي والهجري">
-<meta property="og:description" content="احسب عمرك الميلادي والهجري وعدد الساعات التي عشتها بسرعة وسهولة.">
-<meta property="og:image" content="https://ahmed342k.github.io/share.jpg">
-<meta property="og:url" content="https://ahmed342k.github.io/">
-<meta property="og:type" content="website">
 </head>
 <body>
 
@@ -789,6 +837,27 @@
 
         <button class="main-btn" id="calcBtn" onclick="calculateAge()">احسب</button>
         <div class="error" id="error"></div>
+
+        <div class="live-age-box" id="liveAgeBox">
+          <div class="live-age-title" id="liveAgeTitle">عداد العمر المباشر</div>
+
+          <div class="live-age-grid">
+            <div class="live-age-card">
+              <div class="live-age-number" id="liveHours">0</div>
+              <div class="live-age-label" id="liveHoursLabel">ساعة</div>
+            </div>
+
+            <div class="live-age-card">
+              <div class="live-age-number" id="liveMinutes">0</div>
+              <div class="live-age-label" id="liveMinutesLabel">دقيقة</div>
+            </div>
+
+            <div class="live-age-card">
+              <div class="live-age-number" id="liveSeconds">0</div>
+              <div class="live-age-label" id="liveSecondsLabel">ثانية</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1004,6 +1073,8 @@
     let hoursOn = false;
     let heartbeatOn = false;
 
+    let liveAgeTimer = null;
+
     const dayPicker = document.getElementById("dayPicker");
     const monthPicker = document.getElementById("monthPicker");
     const yearPicker = document.getElementById("yearPicker");
@@ -1077,6 +1148,8 @@
       if (currentLang === "en") {
         toggleLanguage(true);
       }
+
+      startLiveAgeCounter();
     }
 
     function openBirthSheet() {
@@ -1145,6 +1218,7 @@
 
       saveState();
       closeBirthSheet();
+      startLiveAgeCounter();
     }
 
     function toggleOption(type) {
@@ -1187,6 +1261,44 @@
     function toggleTheme() {
       document.body.classList.toggle("light-mode");
       saveState();
+    }
+
+    function updateLiveAgeCounter() {
+      if (!selectedDay || !selectedMonth || !selectedYear) {
+        document.getElementById("liveHours").innerText = "0";
+        document.getElementById("liveMinutes").innerText = "0";
+        document.getElementById("liveSeconds").innerText = "0";
+        return;
+      }
+
+      const birthDate = new Date(Number(selectedYear), Number(selectedMonth) - 1, Number(selectedDay), 0, 0, 0);
+      const now = new Date();
+      const diff = now - birthDate;
+
+      if (diff < 0) {
+        document.getElementById("liveHours").innerText = "0";
+        document.getElementById("liveMinutes").innerText = "0";
+        document.getElementById("liveSeconds").innerText = "0";
+        return;
+      }
+
+      const totalSeconds = Math.floor(diff / 1000);
+      const totalMinutes = Math.floor(diff / 60000);
+      const totalHours = Math.floor(diff / 3600000);
+
+      document.getElementById("liveHours").innerText = totalHours.toLocaleString();
+      document.getElementById("liveMinutes").innerText = totalMinutes.toLocaleString();
+      document.getElementById("liveSeconds").innerText = totalSeconds.toLocaleString();
+    }
+
+    function startLiveAgeCounter() {
+      updateLiveAgeCounter();
+
+      if (liveAgeTimer) {
+        clearInterval(liveAgeTimer);
+      }
+
+      liveAgeTimer = setInterval(updateLiveAgeCounter, 1000);
     }
 
     function toggleLanguage(skipSave = false) {
@@ -1285,6 +1397,11 @@
         document.getElementById("termsPageLink").innerText = "Terms";
         document.getElementById("articlesPageLink").innerText = "Articles";
 
+        document.getElementById("liveAgeTitle").innerText = "Live age counter";
+        document.getElementById("liveHoursLabel").innerText = "Hours";
+        document.getElementById("liveMinutesLabel").innerText = "Minutes";
+        document.getElementById("liveSecondsLabel").innerText = "Seconds";
+
         document.getElementById("sheetTitle").innerText = "Choose Birth Date";
         document.getElementById("dayLabel").innerText = "Day";
         document.getElementById("monthLabel").innerText = "Month";
@@ -1322,40 +1439,4 @@
         document.getElementById("labelMeals").innerText = "عدد الوجبات";
         document.getElementById("labelRamadan").innerText = "عدد رمضاناتك";
         document.getElementById("labelPrayers").innerText = "عدد الصلوات";
-        document.getElementById("labelHours").innerText = "كم ساعة عشت";
-        document.getElementById("labelHeartbeat").innerText = "نبضات القلب";
-        document.getElementById("calcBtn").innerText = "احسب";
-
-        document.getElementById("howTitle").innerText = "ما هي أداة حساب العمر؟";
-        document.getElementById("howText1").innerText = "أداة حساب العمر هي خدمة مجانية عبر المتصفح تساعدك على معرفة عمرك الحالي اعتماداً على تاريخ الميلاد. لا تحتاج إلى تنزيل تطبيق أو إنشاء حساب، فقط أدخل التاريخ واختر نوع النتائج التي تريدها.";
-        document.getElementById("howText2").innerText = "الموقع مناسب لمن يريد حساب العمر الميلادي والهجري بسرعة، ومعرفة عدد الساعات التي عاشها، وعدد رمضاناته، وبعض الإحصائيات اليومية التقريبية بشكل واضح وسهل.";
-        document.getElementById("feature1Title").innerText = "حسابات متنوعة";
-        document.getElementById("feature1Text").innerText = "يمكنك اختيار النتائج التي تريدها فقط، مثل العمر الميلادي والهجري وساعات حياتك والصلوات وعدد رمضاناتك.";
-        document.getElementById("feature2Title").innerText = "واجهة بسيطة";
-        document.getElementById("feature2Text").innerText = "تم تصميم الأداة لتعمل بسهولة على الهاتف والكمبيوتر مع دعم الوضع الليلي والنهاري.";
-        document.getElementById("feature3Title").innerText = "دعم لغتين";
-        document.getElementById("feature3Text").innerText = "يمكنك استخدام الموقع بالعربية أو الإنجليزية بسهولة من زر تغيير اللغة في أعلى الصفحة.";
-        document.getElementById("feature4Title").innerText = "استخدام سريع";
-        document.getElementById("feature4Text").innerText = "لا تحتاج إلى خطوات معقدة. اختر تاريخ الميلاد وحدد الحسابات المطلوبة ثم اضغط على زر احسب.";
-
-        document.getElementById("guideTitle").innerText = "طريقة استخدام الموقع";
-        document.getElementById("step1").innerHTML = "<strong>1.</strong> اختر تاريخ الميلاد من النافذة المخصصة.";
-        document.getElementById("step2").innerHTML = "<strong>2.</strong> فعّل أو عطّل أنواع الحسابات التي تريد ظهورها في النتيجة.";
-        document.getElementById("step3").innerHTML = "<strong>3.</strong> اضغط على زر احسب للانتقال إلى صفحة النتائج.";
-        document.getElementById("step4").innerHTML = "<strong>4.</strong> راجع النتائج الظاهرة مثل العمر الميلادي والهجري وعدد الساعات والإحصائيات الأخرى.";
-
-        document.getElementById("article1Title").innerText = "لماذا قد تحتاج لحساب العمر؟";
-        document.getElementById("article1Text").innerText = "حساب العمر مفيد في المناسبات الشخصية، والتخطيط الدراسي، ومعرفة الفروقات بين التاريخ الميلادي والهجري، ومتابعة العمر الزمني بشكل سريع.";
-        document.getElementById("article2Title").innerText = "العمر الميلادي والعمر الهجري";
-        document.getElementById("article2Text").innerText = "بعض المستخدمين يفضلون معرفة أعمارهم بالتقويم الميلادي، بينما يهتم آخرون بالتقويم الهجري، لذلك تم توفير الخيارين داخل الموقع.";
-        document.getElementById("article3Title").innerText = "إحصائيات تقريبية مفيدة";
-        document.getElementById("article3Text").innerText = "يعرض الموقع بعض القيم التقديرية مثل ساعات النوم وكمية الماء وعدد الوجبات والصلوات، وذلك لتقديم تجربة ممتعة وغنية بالمعلومات.";
-        document.getElementById("article4Title").innerText = "موقع خفيف وسهل";
-        document.getElementById("article4Text").innerText = "تم تطوير الموقع ليكون خفيفاً وسريع التحميل حتى يعمل بشكل جيد على الأجهزة المختلفة وخصوصاً الهواتف المحمولة.";
-
-        document.getElementById("articlesInfoTitle").innerText = "مقالات ومعلومات مفيدة";
-        document.getElementById("readArticle1Title").innerText = "ما هو حساب العمر؟";
-        document.getElementById("readArticle1Text").innerText = "تعرف على معنى حساب العمر ولماذا يستخدمه الناس وما الذي يمكن معرفته من خلال أدوات حساب العمر الحديثة.";
-        document.getElementById("readArticle1Link").innerText = "قراءة المقال";
-        document.getElementById("readArticle2Title").innerText = "الفرق بين العمر الميلادي والهجري";
-        document.getElementById("readArticle2Text").innerText = "شرح بسيط للفرق بين التقويمين ولماذا قد يظهر اختلاف بين العمر الميلادي والعمر ا
+        document.getElementById("labelHours").in
