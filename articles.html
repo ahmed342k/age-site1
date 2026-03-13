@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>المقالات | حساب العمر</title>
+
+  <meta name="description" content="تصفح مقالات موقع حساب العمر حول العمر الميلادي والهجري وطريقة حساب العمر وعدد الأيام والساعات والمعلومات المرتبطة بالعمر." />
+  <meta name="keywords" content="مقالات حساب العمر, العمر الميلادي, العمر الهجري, طريقة حساب العمر, كم عمري, حساب الأيام, حساب الساعات" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://ahmed342k.github.io/articles.html" />
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+
+  <style>
+    *{
+      box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent;
+      font-family:Arial,sans-serif;
+    }
+
+    :root{
+      --bg1:#0b0d12;
+      --bg2:#12161d;
+      --text:#ffffff;
+      --sub:#cfd6df;
+      --card:rgba(255,255,255,0.05);
+      --btn:rgba(255,255,255,0.08);
+      --btnBorder:rgba(255,255,255,0.12);
+      --border:rgba(255,255,255,0.14);
+      --blue:#4f86ee;
+      --shadow:0 10px 24px rgba(0,0,0,.18);
+      --softBlue:rgba(79,134,238,.12);
+      --danger:#ff8e8e;
+      --toggleOff:#7a7a7a;
+      --toggleOn:#4f86ee;
+      --toggleKnob:#ffffff;
+    }
+
+    body.light-mode{
+      --bg1:#eef3fb;
+      --bg2:#e7edf7;
+      --text:#111827;
+      --sub:#5f6b7a;
+      --card:rgba(255,255,255,0.82);
+      --btn:rgba(255,255,255,0.90);
+      --btnBorder:rgba(0,0,0,0.07);
+      --border:rgba(0,0,0,0.08);
+      --blue:#5a8df0;
+      --shadow:0 10px 22px rgba(0,0,0,.08);
+      --softBlue:rgba(90,141,240,.12);
+      --danger:#d94a4a;
+      --toggleOff:#a0a0a0;
+      --toggleOn:#f2b600;
+      --toggleKnob:#ffffff;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(79,134,238,.14), transparent 30%),
+        linear-gradient(180deg,var(--bg1),var(--bg2));
+      transition:.2s ease;
+    }
+
+    .container{
+      max-width:900px;
+      margin:auto;
+      padding:20px 14px 40px;
+    }
+
+    .top-bar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:16px;
+    }
+
+    .mini-btn{
+      min-width:78px;
+      height:44px;
+      border:none;
+      border-radius:16px;
+      background:var(--btn);
+      color:var(--text);
+      border:1px solid var(--btnBorder);
+      box-shadow:var(--shadow);
+      cursor:pointer;
+      font-size:13px;
+    }
+
+    .brand-name{
+      flex:1;
+      text-align:center;
+      font-size:22px;
+      font-weight:700;
+      color:var(--text);
+      letter-spacing:.3px;
+    }
+
+    .logo-wrap{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+    }
+
+    .logo-icon{
+      width:38px;
+      height:38px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:50%;
+      background:var(--btn);
+      border:1px solid var(--btnBorder);
+      box-shadow:var(--shadow);
+      flex:0 0 auto;
+    }
+
+    .logo-text{
+      font-size:24px;
+      font-weight:800;
+      letter-spacing:.4px;
+    }
+
+    .theme-toggle{
+      width:84px;
+      height:44px;
+      border:none;
+      border-radius:999px;
+      background:var(--toggleOn);
+      position:relative;
+      cursor:pointer;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      flex:0 0 auto;
+    }
+
+    .theme-toggle .icon-track{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 10px;
+      font-size:16px;
+      pointer-events:none;
+    }
+
+    .theme-toggle .moon,
+    .theme-toggle .sun{
+      transition:.2s ease;
+    }
+
+    .theme-toggle .moon{opacity:1;}
+    .theme-toggle .sun{opacity:.28;}
+
+    body.light-mode .theme-toggle .moon{opacity:.28;}
+    body.light-mode .theme-toggle .sun{opacity:1;}
+
+    .theme-toggle::before{
+      content:"";
+      position:absolute;
+      width:32px;
+      height:32px;
+      top:6px;
+      right:6px;
+      border-radius:50%;
+      background:var(--toggleKnob);
+      box-shadow:0 3px 8px rgba(0,0,0,.16);
+      transition:.2s ease;
+    }
+
+    body.light-mode .theme-toggle::before{
+      transform:translateX(-40px);
+    }
+
+    .hero-box,
+    .section-box,
+    .articles-box{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+    }
+
+    .hero-box{
+      padding:24px 18px;
+      margin-bottom:16px;
+      text-align:center;
+    }
+
+    .hero-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:8px 14px;
+      border-radius:999px;
+      background:var(--softBlue);
+      border:1px solid var(--btnBorder);
+      color:var(--text);
+      font-size:14px;
+      margin:0 auto 14px;
+    }
+
+    h1{
+      margin:0 0 10px;
+      font-size:34px;
+      text-align:center;
+      line-height:1.35;
+    }
+
+    .hero-text{
+      color:var(--sub);
+      font-size:16px;
+      line-height:1.9;
+      text-align:center;
+      max-width:700px;
+      margin:0 auto;
+    }
+
+    .quick-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:center;
+      margin-top:18px;
+    }
+
+    .quick-links a{
+      text-decoration:none;
+      color:var(--text);
+      background:var(--btn);
+      border:1px solid var(--btnBorder);
+      border-radius:16px;
+      padding:10px 14px;
+      font-size:14px;
+    }
+
+    .section-box{
+      padding:22px 18px;
+      margin-bottom:16px;
+    }
+
+    .content-title{
+      font-size:26px;
+      margin:0 0 14px;
+      color:var(--text);
+      line-height:1.5;
+    }
+
+    .content-text{
+      color:var(--sub);
+      font-size:16px;
+      line-height:2;
+      margin:0;
+    }
+
+    .tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:16px;
+    }
+
+    .tag{
+      background:var(--btn);
+      border:1px solid var(--btnBorder);
+      color:var(--text);
+      border-radius:16px;
+      padding:10px 14px;
+      font-size:14px;
+    }
+
+    .articles-box{
+      padding:22px 18px;
+      margin-bottom:16px;
+    }
+
+    .article-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:14px;
+    }
+
+    .article-card{
+      background:var(--btn);
+      border:1px solid var(--btnBorder);
+      border-radius:20px;
+      padding:16px;
+    }
+
+    .article-card h3{
+      margin:0 0 10px;
+      font-size:19px;
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    .article-card p{
+      margin:0;
+      color:var(--sub);
+      line-height:1.9;
+      font-size:15px;
+    }
+
+    .read-link{
+      display:inline-block;
+      margin-top:12px;
+      color:var(--text);
+      text-decoration:none;
+      background:var(--softBlue);
+      border:1px solid var(--btnBorder);
+      border-radius:14px;
+      padding:9px 12px;
+      font-size:14px;
+    }
+
+    .nav-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:16px;
+    }
+
+    .nav-links a{
+      text-decoration:none;
+      color:var(--text);
+      background:var(--btn);
+      border:1px solid var(--btnBorder);
+      border-radius:16px;
+      padding:10px 14px;
+      font-size:14px;
+    }
+
+    footer{
+      margin-top:24px;
+      padding:20px 12px;
+      text-align:center;
+      color:var(--sub);
+      font-size:15px;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+    }
+
+    footer a{
+      color:var(--sub);
+      text-decoration:none;
+      margin:0 6px;
+    }
+
+    .footer-top{
+      margin-bottom:10px;
+      line-height:2;
+    }
+
+    .footer-note{
+      font-size:14px;
+      line-height:1.9;
+    }
+
+    @media (max-width:640px){
+      .article-grid{
+        grid-template-columns:1fr;
+      }
+
+      h1{
+        font-size:30px;
+      }
+
+      .content-title{
+        font-size:23px;
+      }
+
+      .brand-name{
+        font-size:19px;
+      }
+
+      .logo-text{
+        font-size:21px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="top-bar">
+      <button class="mini-btn" id="langToggleBtn" onclick="toggleLanguage()">AR/EN</button>
+
+      <div class="brand-name logo-wrap">
+        <span class="logo-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="30" fill="rgba(79,134,238,.15)" stroke="rgba(255,255,255,.14)"/>
+            <path d="M39.5 18.5C31 20 25 27.3 25 36c0 4.7 1.8 9 4.8 12.2A16 16 0 1 1 39.5 18.5Z" fill="#f4d06f"/>
+            <path d="M18 46c4-6 9.5-9 14-9s10 3 14 9" stroke="rgba(255,255,255,.75)" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="logo-text">Noor</span>
+      </div>
+
+      <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" aria-label="theme">
+        <div class="icon-track">
+          <span class="moon">🌙</span>
+          <span class="sun">☀</span>
+        </div>
+      </button>
+    </div>
+
+    <section class="hero-box">
+      <div class="hero-badge" id="heroBadge">مكتبة المقالات والمعلومات</div>
+      <h1 id="mainTitle">مقالات حساب العمر</h1>
+      <p class="hero-text" id="heroText">
+        في هذه الصفحة ستجد مجموعة مقالات مفيدة حول طريقة حساب العمر، الفرق بين العمر الميلادي والهجري، وعدد الأيام والساعات التي عشتها، مع مواضيع إضافية تساعد على فهم النتائج وتحسين ظهور الموقع في محركات البحث.
+      </p>
+
+      <div class="quick-links">
+        <a href="index.html" id="quickHome">الرئيسية</a>
+        <a href="#featuredArticles" id="quickArticles">المقالات الحالية</a>
+        <a href="#newArticles" id="quickNew">المقالات الجديدة</a>
+      </div>
+    </section>
+
+    <section class="section-box">
+      <h2 class="content-title" id="sectionTitle1">لماذا هذه الصفحة مهمة؟</h2>
+      <p class="content-text" id="sectionText1">
+        صفحة المقالات تجعل الموقع أكثر فائدة للزوار، وتضيف محتوى حقيقياً يساعد محركات البحث على فهم موضوع الموقع بشكل أفضل. كما تمنح الزائر فرصة قراءة مواضيع مفيدة مرتبطة بالعمر والتقويمات والحسابات الزمنية.
+      </p>
+
+      <div class="tags">
+        <span class="tag" id="tag1">العمر الميلادي</span>
+        <span class="tag" id="tag2">العمر الهجري</span>
+        <span class="tag" id="tag3">عدد الأيام</span>
+        <span class="tag" id="tag4">عدد الساعات</span>
+        <span class="tag" id="tag5">طريقة الحساب</span>
+      </div>
+    </section>
+
+    <section class="articles-box" id="featuredArticles">
+      <h2 class="content-title" id="featuredTitle">المقالات الحالية</h2>
+
+      <div class="article-grid">
+        <div class="article-card">
+          <h3 id="current1Title">ما هو حساب العمر؟</h3>
+          <p id="current1Text">تعرف على معنى حساب العمر ولماذا يستخدمه الناس وما الذي يمكن معرفته من خلال أدوات حساب العمر الحديثة.</p>
+          <a href="article-1.html" class="read-link" id="current1Link">قراءة المقال</a>
+        </div>
+
+        <div class="article-card">
+          <h3 id="current2Title">الفرق بين العمر الميلادي والهجري</h3>
+          <p id="current2Text">شرح بسيط للفرق بين التقويمين ولماذا قد يظهر اختلاف بين العمر الميلادي والعمر الهجري.</p>
+          <a href="article-2.html" class="read-link" id="current2Link">قراءة المقال</a>
+        </div>
+
+        <div class="article-card">
+          <h3 id="current3Title">كيف يتم حساب العمر؟</h3>
+          <p id="current3Text">خطوات مبسطة لفهم طريقة حساب العمر من تاريخ الميلاد حتى اليوم الحالي.</p>
+          <a href="article-3.html" class="read-link" id="current3Link">قراءة المقال</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="articles-box" id="newArticles">
+      <h2 class="content-title" id="newTitle">المقالات الجديدة</h2>
+
+      <div class="article-grid">
+        <div class="article-card">
+          <h3>حساب العمر بالميلادي والهجري: الطريقة الدقيقة</h3>
+          <p>شرح واضح لطريقة حساب العمر بالتقويمين ولماذا تختلف النتيجة بينهما عند بعض المستخدمين.</p>
+          <a href="article-4.html" class="read-link">قراءة المقال</a>
+        </div>
+
+        <div class="article-card">
+          <h3>كيف تحسب عمرك بالسنوات والأشهر والأيام</h3>
+          <p>تعلم الطريقة الأساسية لحساب العمر بشكل يدوي أو باستخدام أدوات دقيقة عبر الإنترنت.</p>
+          <a href="article-5.html" class="read-link">قراءة المقال</a>
+        </div>
+
+        <div class="article-card">
+          <h3>الفرق بين السنة الميلادية والسنة الهجرية</h3>
+          <p>مقال يوضح الفارق الزمني بين التقويم الميلادي والهجري وتأثير ذلك على حساب العمر.</p>
+          <a href="article-6.html" class="read-link">قراءة المقال</a>
+        </div>
+
+        <div class="article-card">
+          <h3>لماذا يختلف العمر الهجري عن الميلادي</h3>
+          <p>تعرف على السبب الحقيقي وراء ظهور العمر الهجري أكبر قليلاً من العمر الميلادي في العادة.</p>
+          <a href="article-7.html" class="read-link">قراءة المقال</a>
+        </div>
+
+        <div class="article-card">
+          <h3>كيفية حساب العمر بدون استخدام أدوات</h3>
+          <p>شرح مبسط لمن يريد معرفة طريقة حساب العمر بنفسه خطوة بخطوة بدون مواقع أو تطبيقات.</p>
+          <a href="article-8.html" class="read-link">قراءة المقال</a>
+        </div>
+
+        <div class="article-card">
+          <h3>كم عمرك بالثواني والدقائق</h3>
+          <p>مقال ممتع يوضح كيف يمكن تحويل العمر إلى دقائق وساعات وثواني بشكل تقريبي ومفيد.</p>
+          <a href="article-9.html" class="read-link">قراءة المقال</a>
+        </div>
+
+        <div class="article-card">
+          <h3>كيفية معرفة تاريخ ميلادك بالهجري</h3>
+          <p>إذا كنت تعرف تاريخ ميلادك بالميلادي فقط، فهذا المقال يساعدك على فهم تحويله إلى الهجري.</p>
+          <a href="article-10.html" class="read-link">قراءة المقال</a>
+        </div>
+
+        <div class="article-card">
+          <h3>حساب العمر للأطفال والبالغين</h3>
+          <p>تعرف على الفائدة من حساب العمر بدقة للأطفال والبالغين وفي أي حالات يكون الأمر مهماً.</p>
+          <a href="article-11.html" class="read-link">قراءة المقال</a>
+        </div>
+
+        <div class="article-card">
+          <h3>كيف تحسب عمرك في المستقبل</h3>
+          <p>شرح بسيط لمعرفة عمرك في سنة قادمة أو بعد مدة زمنية معينة بطريقة سهلة وواضحة.</p>
+          <a href="article-12.html" class="read-link">قراءة المقال</a>
+        </div>
+
+        <div class="article-card">
+          <h3>كم عدد الأيام التي عشتها منذ ولادتك</h3>
+          <p>موضوع مفيد وممتع لمعرفة عدد الأيام التقريبي الذي مر بك منذ يوم ميلادك حتى اليوم.</p>
+          <a href="article-13.html" class="read-link">قراءة المقال</a>
+        </div>
+
+        <div class="article-card">
+          <h3>لماذا معرفة العمر مهمة</h3>
+          <p>مقال يشرح الفوائد العملية والشخصية لمعرفة العمر بدقة في الحياة اليومية والمناسبات.</p>
+          <a href="article-14.html" class="read-link">قراءة المقال</a>
+        </div>
+
+        <div class="article-card">
+          <h3>أفضل طرق حساب العمر بدقة</h3>
+          <p>تعرف على الطرق اليدوية والرقمية التي تساعدك على معرفة عمرك بشكل صحيح وسريع.</p>
+          <a href="article-15.html" class="read-link">قراءة المقال</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-box">
+      <h2 class="content-title" id="sectionTitle2">روابط مهمة</h2>
+      <p class="content-text" id="sectionText2">
+        يمكنك الرجوع إلى الصفحة الرئيسية لاستخدام الأداة مباشرة، أو تصفح الصفحات القانونية والمعلوماتية الخاصة بالموقع من الروابط التالية.
+      </p>
+
+      <div class="nav-links">
+        <a href="index.html" id="navHome">الرئيسية</a>
+        <a href="about.html" id="navAbout">من نحن</a>
+        <a href="contact.html" id="navContact">اتصل بنا</a>
+        <a href="privacy.html" id="navPrivacy">سياسة الخصوصية</a>
+        <a href="terms.html" id="navTerms">شروط الاستخدام</a>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-top">
+        <a href="index.html" id="footerHome">الرئيسية</a> |
+        <a href="about.html" id="footerAbout">من نحن</a> |
+        <a href="contact.html" id="footerContact">اتصل بنا</a> |
+        <a href="privacy.html" id="footerPrivacy">سياسة الخصوصية</a> |
+        <a href="terms.html" id="footerTerms">شروط الاستخدام</a>
+      </div>
+      <div class="footer-note" id="footerNote">
+        صفحة المقالات تعرض مواضيع مفيدة مرتبطة بحساب العمر وتساعد على جعل الموقع أكثر فائدة ووضوحاً للزوار ومحركات البحث.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    let currentLang = "ar";
+
+    function saveState() {
+      localStorage.setItem("articlesPageState", JSON.stringify({
+        currentLang,
+        theme: document.body.classList.contains("light-mode") ? "light" : "dark"
+      }));
+    }
+
+    function loadState() {
+      const saved = JSON.parse(localStorage.getItem("articlesPageState") || "{}");
+      const homeState = JSON.parse(localStorage.getItem("ageCalcData") || "{}");
+
+      if (saved.theme === "light" || homeState.theme === "light") {
+        document.body.classList.add("light-mode");
+      }
+
+      currentLang = saved.currentLang || homeState.currentLang || "ar";
+
+      if (currentLang === "en") {
+        toggleLanguage(true);
+      }
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("light-mode");
+      saveState();
+    }
+
+    function toggleLanguage(skipSave = false) {
+      if (currentLang === "ar") {
+        currentLang = "en";
+        document.documentElement.lang = "en";
+        document.documentElement.dir = "ltr";
+
+        document.title = "Articles | Age Calculator";
+        document.getElementById("heroBadge").innerText = "Articles and useful information";
+        document.getElementById("mainTitle").innerText = "Age Calculator Articles";
+        document.getElementById("heroText").innerText = "On this page you will find useful articles about age calculation, the difference between Gregorian and Hijri age, and the number of days and hours you have lived.";
+        document.getElementById("quickHome").innerText = "Home";
+        document.getElementById("quickArticles").innerText = "Current articles";
+        document.getElementById("quickNew").innerText = "New articles";
+
+        document.getElementById("sectionTitle1").innerText = "Why is this page important?";
+        document.getElementById("sectionText1").innerText = "The articles page makes the website more useful for visitors and adds real content that helps search engines understand the topic of the site better.";
+        document.getElementById("tag1").innerText = "Gregorian age";
+        document.getElementById("tag2").innerText = "Hijri age";
+        document.getElementById("tag3").innerText = "Number of days";
+        document.getElementById("tag4").innerText = "Number of hours";
+        document.getElementById("tag5").innerText = "Calculation method";
+
+        document.getElementById("featuredTitle").innerText = "Current articles";
+        document.getElementById("current1Title").innerText = "What is age calculation?";
+        document.getElementById("current1Text").innerText = "Learn the meaning of age calculation and why people use modern age tools.";
+        document.getElementById("current1Link").innerText = "Read article";
+        document.getElementById("current2Title").innerText = "Difference between Gregorian and Hijri age";
+        document.getElementById("current2Text").innerText = "A simple explanation of the difference between the two calendars and why age may differ.";
+        document.getElementById("current2Link").innerText = "Read article";
+        document.getElementById("current3Title").innerText = "How is age calculated?";
+        document.getElementById("current3Text").innerText = "Simple steps to understand how age is calculated from birth date to today.";
+        document.getElementById("current3Link").innerText = "Read article";
+
+        document.getElementById("newTitle").innerText = "New articles";
+        document.getElementById("sectionTitle2").innerText = "Useful links";
+        document.getElementById("sectionText2").innerText = "You can return to the home page to use the tool directly, or browse the legal and informational pages of the website from the following links.";
+        document.getElementById("navHome").innerText = "Home";
+        document.getElementById("navAbout").innerText = "About";
+        document.getElementById("navContact").innerText = "Contact";
+        document.getElementById("navPrivacy").innerText = "Privacy";
+        document.getElementById("navTerms").innerText = "Terms";
+
+        document.getElementById("footerHome").innerText = "Home";
+        document.getElementById("footerAbout").innerText = "About";
+        document.getElementById("footerContact").innerText = "Contact";
+        document.getElementById("footerPrivacy").innerText = "Privacy";
+        document.getElementById("footerTerms").innerText = "Terms";
+        document.getElementById("footerNote").innerText = "The articles page presents useful topics related to age calculation and helps make the site more valuable for visitors and search engines.";
+
+        const readLinks = document.querySelectorAll(".read-link");
+        readLinks.forEach(link => {
+          if (link.innerText.includes("قراءة")) link.innerText = "Read article";
+          if (link.innerText.includes("الصفحة")) link.innerText = "Read page";
+        });
+      } else {
+        currentLang = "ar";
+        document.documentElement.lang = "ar";
+        document.documentElement.dir = "rtl";
+
+        document.title = "المقالات | حساب العمر";
+        document.getElementById("heroBadge").innerText = "مكتبة المقالات والمعلومات";
+        document.getElementById("mainTitle").innerText = "مقالات حساب العمر";
+        document.getElementById("heroText").innerText = "في هذه الصفحة ستجد مجموعة مقالات مفيدة حول طريقة حساب العمر، الفرق بين العمر الميلادي والهجري، وعدد الأيام والساعات التي عشتها، مع مواضيع إضافية تساعد على فهم النتائج وتحسين ظهور الموقع في محركات البحث.";
+        document.getElementById("quickHome").innerText = "الرئيسية";
+        document.getElementById("quickArticles").innerText = "المقالات الحالية";
+        document.getElementById("quickNew").innerText = "المقالات الجديدة";
+
+        document.getElementById("sectionTitle1").innerText = "لماذا هذه الصفحة مهمة؟";
+        document.getElementById("sectionText1").innerText = "صفحة المقالات تجعل الموقع أكثر فائدة للزوار، وتضيف محتوى حقيقياً يساعد محركات البحث على فهم موضوع الموقع بشكل أفضل. كما تمنح الزائر فرصة قراءة مواضيع مفيدة مرتبطة بالعمر والتقويمات والحسابات الزمنية.";
+        document.getElementById("tag1").innerText = "العمر الميلادي";
+        document.getElementById("tag2").innerText = "العمر الهجري";
+        document.getElementById("tag3").innerText = "عدد الأيام";
+        document.getElementById("tag4").innerText = "عدد الساعات";
+        document.getElementById("tag5").innerText = "طريقة الحساب";
+
+        document.getElementById("featuredTitle").innerText = "المقالات الحالية";
+        document.getElementById("current1Title").innerText = "ما هو حساب العمر؟";
+        document.getElementById("current1Text").innerText = "تعرف على معنى حساب العمر ولماذا يستخدمه الناس وما الذي يمكن معرفته من خلال أدوات حساب العمر الحديثة.";
+        document.getElementById("current1Link").innerText = "قراءة المقال";
+        document.getElementById("current2Title").innerText = "الفرق بين العمر الميلادي والهجري";
+        document.getElementById("current2Text").innerText = "شرح بسيط للفرق بين التقويمين ولماذا قد يظهر اختلاف بين العمر الميلادي والعمر الهجري.";
+        document.getElementById("current2Link").innerText = "قراءة المقال";
+        document.getElementById("current3Title").innerText = "كيف يتم حساب العمر؟";
+        document.getElementById("current3Text").innerText = "خطوات مبسطة لفهم طريقة حساب العمر من تاريخ الميلاد حتى اليوم الحالي.";
+        document.getElementById("current3Link").innerText = "قراءة المقال";
+
+        document.getElementById("newTitle").innerText = "المقالات الجديدة";
+        document.getElementById("sectionTitle2").innerText = "روابط مهمة";
+        document.getElementById("sectionText2").innerText = "يمكنك الرجوع إلى الصفحة الرئيسية لاستخدام الأداة مباشرة، أو تصفح الصفحات القانونية والمعلوماتية الخاصة بالموقع من الروابط التالية.";
+        document.getElementById("navHome").innerText = "الرئيسية";
+        document.getElementById("navAbout").innerText = "من نحن";
+        document.getElementById("navContact").innerText = "اتصل بنا";
+        document.getElementById("navPrivacy").innerText = "سياسة الخصوصية";
+        document.getElementById("navTerms").innerText = "شروط الاستخدام";
+
+        document.getElementById("footerHome").innerText = "الرئيسية";
+        document.getElementById("footerAbout").innerText = "من نحن";
+        document.getElementById("footerContact").innerText = "اتصل بنا";
+        document.getElementById("footerPrivacy").innerText = "سياسة الخصوصية";
+        document.getElementById("footerTerms").innerText = "شروط الاستخدام";
+        document.getElementById("footerNote").innerText = "صفحة المقالات تعرض مواضيع مفيدة مرتبطة بحساب العمر وتساعد على جعل الموقع أكثر فائدة ووضوحاً للزوار ومحركات البحث.";
+
+        const readLinks = document.querySelectorAll(".read-link");
+        readLinks.forEach(link => {
+          if (link.innerText.includes("Read")) link.innerText = "قراءة المقال";
+        });
+      }
+
+      if (!skipSave) saveState();
+    }
+
+    loadState();
+  </script>
+</body>
+  </html>
